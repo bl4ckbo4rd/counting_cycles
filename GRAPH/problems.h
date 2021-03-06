@@ -12,10 +12,15 @@ void f_ERNSgraph(Graph&, int, double, int);
 
 void f_toyGraph0(Graph &);
 
-void f_build_toy1(Graph& G);
 void f_toyGraph1(Graph &);
 
 void f_toyGraph2(Graph &);
+
+void f_toyGraph3(Graph &, int);
+
+vector <int> dynamical_step(Graph&, vector <int>);
+
+int check_cycle_condition(Graph&, vector <int>, vector <int>, int, int);
 
 void countFixedPointsBruteForce(Graph&);
 

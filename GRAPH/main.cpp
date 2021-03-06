@@ -34,8 +34,9 @@ int main (int argc, char *argv[]){
     
     Graph G(N, seed_g);
     
-    //f_toyGraph1(G);
+    f_toyGraph3(G, M);
     
+    /*
     //maximum connectivity
     int z=6;
     
@@ -60,6 +61,8 @@ int main (int argc, char *argv[]){
     cout << "----------------------------------------------------------------------\n";
     cout << endl;
     
+    
+    
     clock_t start1 = clock();
     //f_BPiterationL1(G, th, T, r);
     f_BPGD_L1(G, th, T, r);
@@ -67,9 +70,7 @@ int main (int argc, char *argv[]){
     float sec1 = (float)(end1 - start1) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=1 ----------------------> " << sec1 << endl;
 
-    //f_toyGraph1(G);
     
-    /*
 
     clock_t start2 = clock();
     f_BPiterationL2(G, th, T, r);

@@ -88,6 +88,12 @@ public:
                                                             //input variables: link index, vector of nodes attached to the link (connected to the link).
                                                             //output: 1 if the operation can be done, 0 if not (the link already exists).
     
+    int addLink_wrapper(int, int, double, double);          //wrapper of the addLink method taking as inputs the labels of the nodes one wants to connect
+                                                            //and the values of the couplings that the two directed links should take. if the links (i->j and j->i)
+                                                            //exists, overwrite the values of Ji->j and Jj->i.
+                                                            //inputs: i, j, Ji->j, Jj->i
+    
+    
     int numberOfTotalLinks();                               //this method returns the total number of Links in the Graph.
     
     int numberOfTotalNodes();                               //this method returns the total number or nodes in the graph.

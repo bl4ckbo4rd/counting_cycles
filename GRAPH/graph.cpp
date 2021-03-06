@@ -123,6 +123,45 @@ int Graph::addLink(int p_l, vector<int> v_dl, double J){
 };
 
 
+
+int Graph::addLink_wrapper(int i, int j, double Jitoj, double Jjtoi){
+    
+    int flag_ij, flag_ji;
+
+    int l = numberOfTotalLinks();
+            
+    vector <int> vitoj = make_vector<int>() << j << i;
+    flag_ij = addLink(l, vitoj, Jitoj);
+    l++;
+
+    vector <int> vjtoi = make_vector<int>() << i << j;
+    flag_ji = addLink(l, vjtoi, Jjtoi);
+    l++;
+    
+    //if link already exists, overwrite the values of J's with the arguments of the function
+    
+    int index_link;
+    int k = 0;
+    for (vector<int>::iterator it = v[i].v_neigh.begin() ; it != v[i].v_neigh.end(); ++it){
+        if (*it==j){
+            index_link = v[i].v_link[k];
+            E[index_link].J = Jjtoi;
+        }
+        k++;
+    }
+    
+    k = 0;
+    for (vector<int>::iterator it = v[j].v_neigh.begin() ; it != v[j].v_neigh.end(); ++it){
+        if (*it==i){
+            index_link = v[j].v_link[k];
+            E[index_link].J = Jitoj;
+        }
+        k++;
+    }
+    
+    return flag_ij * flag_ji;
+}
+
 int Graph::removeLink(int l){
     
     int flag = 0;
