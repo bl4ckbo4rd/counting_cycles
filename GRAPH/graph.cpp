@@ -124,7 +124,7 @@ int Graph::addLink(int p_l, vector<int> v_dl, double J){
 
 
 
-int Graph::addLink_wrapper(int i, int j, double Jitoj, double Jjtoi){
+int Graph::addLinkWrapper(int i, int j, double Jitoj, double Jjtoi){
     
     int flag_ij, flag_ji;
 

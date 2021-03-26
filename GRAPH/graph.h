@@ -76,25 +76,27 @@ public:
     vector <Node> v;                                        //v containss all the Nodes of the Graph.
                                                             //this vector is filled by the method getGraph.
     
-    vector <Link> E;                                        //E contains all the Links of the Graph.
+    vector <Link> E;                                        //E contains all the directed Links of the Graph.
     
     vector< vector<int> > component;
 
-    int removeLink(int l);
+    int removeLink(int l);                                  //TODO: check if it works
     
     int addLink(int, vector<int>, double);                  //the addLink method implements the operations needed when adding a link in the graph
                                                             //namely one needs to create a Link object l, store its neighour variables and for each of them
                                                             //add the index of l as a neghbouring link.
-                                                            //input variables: link index, vector of nodes attached to the link (connected to the link).
+                                                            //input variables: link index, vector of nodes connected by the link, value of the coupling:
+                                                            //ex.:
+                                                            //vector <int> vitoj = make_vector<int>() << j << i;
+                                                            //flag_ij = addLink(l, vitoj, Jitoj);
                                                             //output: 1 if the operation can be done, 0 if not (the link already exists).
     
-    int addLink_wrapper(int, int, double, double);          //wrapper of the addLink method taking as inputs the labels of the nodes one wants to connect
+    int addLinkWrapper(int, int, double, double);           //wrapper of the addLink method taking as inputs the labels of the nodes one wants to connect
                                                             //and the values of the couplings that the two directed links should take. if the links (i->j and j->i)
-                                                            //exists, overwrite the values of Ji->j and Jj->i.
+                                                            //exist, overwrite the values of Ji->j and Jj->i.
                                                             //inputs: i, j, Ji->j, Jj->i
     
-    
-    int numberOfTotalLinks();                               //this method returns the total number of Links in the Graph.
+    int numberOfTotalLinks();                               //this method returns the total number of directed Links in the Graph.
     
     int numberOfTotalNodes();                               //this method returns the total number or nodes in the graph.
 
@@ -123,7 +125,7 @@ public:
 //---------------------------------------------------------------------------------------------------------------------------------------------------// class representing the BP messages
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//name the type of constraints I consider
+//name the type of constraints considered
 struct L1 { };     //cycle of length 1
 struct L2 { };     //cycle of lenght 2
 struct L3 { };     //cycle of lenght 3
@@ -167,7 +169,6 @@ public:
     inline void constraint_bp(int z, int flag_red, int l, vector <double>& vec_J_k_to_i, double J_j_to_i){
         def_constraint_bp( Tag(), flag_red, z, l, vec_J_k_to_i, J_j_to_i );
     }
-    
     //these are different functions, labelled by the first argument
     inline void def_constraint_bp(L1, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i);
     inline void def_constraint_bp(L2, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i);
@@ -180,11 +181,11 @@ public:
     
     template<typename Tag>
     inline vector<long double> computeMarginalsLastTime(int l){
-        return def_computeMarginalsLastTime( Tag(), l );
+        return def_computeMarginalsLastTime(Tag(), l);          //For a supervariable describing the state of several time steps, take the latest time and marginalise over previous times
     }
     
-    inline vector<long double> def_computeMarginalsLastTime( L1, int l);
-    inline vector<long double> def_computeMarginalsLastTime( L2, int l);
+    inline vector<long double> def_computeMarginalsLastTime(L1, int l);
+    inline vector<long double> def_computeMarginalsLastTime(L2, int l);
 
     
     
@@ -215,10 +216,10 @@ public:
     void def_print_BPit(L1T1, double tmp_th, int t);
     
     template<typename Tag>
-    void look_up_table(int flag_red);
+    void look_up_table(int flag_red);                           //this function fills the vector allowed_conf for each node.
     
     template<typename Tag>
-    void look_up_table_bp(int flag_red);
+    void look_up_table_bp(int flag_red);                        //this function fills the vector allowed_conf_bp for each directed link. This will be used in each step of the BP eqs.
     
     void compute_x(int Nc, int z, vector < vector <int> >& x);  //compute the matrix of possible configurations of neighbours of a site
 
@@ -241,11 +242,11 @@ public:
     
     vector < vector < vector <int> > > allowed_conf_bp;         //for each i->j and (xi,xj), this vector contains the configurations of neighbours of i, indexed by
                                                                 //k (diff than j), that satisfy the constraint. This configuration in encoded in a decimal form
-                                                                //taking the 0/1 allowed configuration and getting its decimal form
+                                                                //taking the 0/1 representation of the allowed configuration and getting its decimal form
 
     vector < vector < vector <int> > > allowed_conf;            //for each i and xi, this vector contains the configurations of neighbours of i, indexed by
                                                                 //k  that satisfy the constraint. This configuration in encoded in a decimal form
-                                                                //taking the 0/1 allowed configuration and getting its decimal form
+                                                                //taking the 0/1 representation of the allowed configuration and getting its decimal form
 
     vector < vector < vector <long double> > > update_mess;     //update_mess contains the messages after a BP-sweep
 
@@ -300,7 +301,7 @@ public:
     void Wrap_computeLastMarg();                                //spin i is 0 and spin j is 0
     
     template<typename Tag>
-    void BPiteration(double, int, int, int, bool);          //this method iterates BP equations by calling BP_sweep until convergence
+    void BPiteration(double, int, int, int, bool);              //this method iterates BP equations by calling BP_sweep until convergence
                                                                 //input variables:
                                                                 //th          : this value sets the convergence quality. set it to ~10^-3.
                                                                 //flag_red    : flag equal to 1/0 to study reduced/non-reduced case
@@ -374,7 +375,7 @@ public:
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------// useful functions
 
-//this function defines allows to fill a vector in one single line
+//this function allows to fill a vector in one single line
 //it has been downloaded from https://gist.github.com/pablomtz/5577626
 //examples:
 //vector<int> v = make_vector<int>() << 0 << 0 << 1 << 1 << 1 << 0 << 0 << 1 << 1;

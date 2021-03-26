@@ -16,7 +16,7 @@ void f_toyGraph1(Graph &);
 
 void f_toyGraph2(Graph &);
 
-void f_toyGraph3(Graph &, int);
+void f_toyGraph3(Graph &, int, double);
 
 vector <int> dynamical_step(Graph&, vector <int>);
 

@@ -172,9 +172,9 @@ void f_BPiterationL2(Graph& G, double th, int T, double r){
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L2>(th, flag_red, flag_approx, T, verbose);
     
-    mess.Wrap_computeLastMarg<L2>();
+    //mess.Wrap_computeLastMarg<L2>();
     //mess.linkMarginalState();
-    mess.messState();
+    //mess.messState();
     
 }
 
@@ -238,7 +238,7 @@ void f_BPiterationL1T1(Graph& G, double th, int T, double r){
 }
 
 
-//graph 0 has N=5, M=0
+//graph 0 has N=0, M=0
 void f_toyGraph0(Graph& G){
     
     G.graphStructure();
@@ -256,10 +256,10 @@ void f_toyGraph0(Graph& G){
 //graph 1 has N=5, M=4
 void f_toyGraph1(Graph& G){
     
-    G.addLink_wrapper(0, 1, 1., 1.);
-    G.addLink_wrapper(1, 2, -1., -1.);
-    G.addLink_wrapper(1, 4, -1., -1.);
-    G.addLink_wrapper(2, 3, -1., -1.);
+    G.addLinkWrapper(0, 1, 1., 1.);
+    G.addLinkWrapper(1, 2, -1., -1.);
+    G.addLinkWrapper(1, 4, -1., -1.);
+    G.addLinkWrapper(2, 3, -1., -1.);
 
     G.graphStructure();
 
@@ -277,10 +277,10 @@ void f_toyGraph1(Graph& G){
 //graph 2 has N=4, M=4
 void f_toyGraph2(Graph& G){
     
-    G.addLink_wrapper(0, 3, 0.5, 1.5);
-    G.addLink_wrapper(1, 0, 0.3, 0.7);
-    G.addLink_wrapper(2, 0, 1.0, 0.4);
-    G.addLink_wrapper(2, 1, 1.0, 1.2);
+    G.addLinkWrapper(0, 3, 0.5, 1.5);
+    G.addLinkWrapper(1, 0, 0.3, 0.7);
+    G.addLinkWrapper(2, 0, 1.0, 0.4);
+    G.addLinkWrapper(2, 1, 1.0, 1.2);
 
     
     G.graphStructure();
@@ -296,18 +296,21 @@ void f_toyGraph2(Graph& G){
 }
 
 
-//graph 1 has N=4, M=4
-void f_toyGraph3(Graph& G, int M){
+//graph 3 is a RR graph with a frustrated loop
+//with couplings so large to be decoupled from
+//the rest of the graph. this motif prevents cycles
+//with period smaller than 8 to be present.
+void f_toyGraph3(Graph& G, int M, double epsilon){
     
-    G.RandomRegular(M, 0.);
+    G.RandomRegular(M, epsilon);
     
     cout << "number of directed links before loop creation " << G.numberOfTotalLinks() << endl;
 
     
-    G.addLink_wrapper(0, 1, -50, 0.0000001);
-    G.addLink_wrapper(1, 2, 50, 0.0000001);
-    G.addLink_wrapper(2, 3, 50, 0.0000001);
-    G.addLink_wrapper(3, 0, 50, 0.0000001);
+    G.addLinkWrapper(0, 1, -50, 0.0000001);
+    G.addLinkWrapper(1, 2, 50, 0.0000001);
+    G.addLinkWrapper(2, 3, 50, 0.0000001);
+    G.addLinkWrapper(3, 0, 50, 0.0000001);
     
     
     cout << "number of directed links after loop creation " << G.numberOfTotalLinks() << endl;
@@ -320,33 +323,6 @@ void f_toyGraph3(Graph& G, int M){
     count2CyclesBruteForce(G);
     count3CyclesBruteForce(G);
     count4CyclesBruteForce(G);
-
-    double  th = 0.0001;    //threshold for the BP algo to converge
-    int     T  = 1000;      //maximum number of BP sweeps we make
-    
-    clock_t start1 = clock();
-    f_BPiterationL1(G, th, T, 0);
-    clock_t end1 = clock();
-    float sec1 = (float)(end1 - start1) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=1 ----------------------> " << sec1 << endl;
-    
-    start1 = clock();
-    f_BPiterationL2(G, th, T, 0);
-    end1 = clock();
-    sec1 = (float)(end1 - start1) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=2 ----------------------> " << sec1 << endl;
-    
-    start1 = clock();
-    f_BPiterationL3(G, th, T, 0);
-    end1 = clock();
-    sec1 = (float)(end1 - start1) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=3 ----------------------> " << sec1 << endl;
-    
-    start1 = clock();
-    f_BPiterationL4(G, th, T, 0);
-    end1 = clock();
-    sec1 = (float)(end1 - start1) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=4 ----------------------> " << sec1 << endl;
 
     
     return;
