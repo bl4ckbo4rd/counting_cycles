@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "messages.h"
 
 void f_ERgraph(Graph &, int, double);
 
