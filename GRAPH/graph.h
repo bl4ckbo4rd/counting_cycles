@@ -66,7 +66,9 @@ public:
 class Graph{
 public:
     
+    Graph();
     Graph(int, int);
+    
     
     int seed_g;
     
@@ -80,6 +82,9 @@ public:
     
     vector< vector<int> > component;
 
+    void initializeGraph(int, int);                         //do the job of the constructur in case the parameters N and seed_g were not specified when
+                                                            //instantiating the graph object.
+    
     int removeLink(int l);                                  //TODO: check if it works
     
     int addLink(int, vector<int>, double);                  //the addLink method implements the operations needed when adding a link in the graph

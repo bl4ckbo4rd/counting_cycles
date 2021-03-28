@@ -12,47 +12,80 @@ int main (int argc, char *argv[]){
     double  th = 0.001;    //threshold for the BP algo to converge
     int     T  = 1000;      //maximum number of BP sweeps we make
     
-    string  str;
+    Graph G;
     
-    if(argc==8){
-        
-        int i = 1;
-        N       = atoi(argv[i++]);
-        M       = atoi(argv[i++]);
-        epsilon = atof(argv[i++]);
-        seed_g  = atoi(argv[i++]);
-        r       = atof(argv[i++]);
-        P       = atoi(argv[i++]);
-        str     = argv[i++];
-        
+    string  str_graph_type;
+    
+    int i = 1;
+    string mode = argv[i++];
+    
+    if (mode == "study_toy_graph"){
+        int k = atoi(argv[i++]);
+        if(argc==3){
+            seed_g = 0;
+            if(k==0){
+                N = 0;
+                G.initializeGraph(N, seed_g);
+                f_toyGraph0(G);
+            }
+            if(k==1){
+                N = 5;
+                G.initializeGraph(N, seed_g);
+                f_toyGraph1(G);
+            }
+            if(k==2){
+                N = 4;
+                G.initializeGraph(N, seed_g);
+                f_toyGraph2(G);
+            }
+        }
+        if(argc==6 and k==3){
+            N = atoi(argv[i++]);
+            M = atoi(argv[i++]);
+            epsilon = atof(argv[i++]);
+            seed_g = atoi(argv[i++]);
+            G.initializeGraph(N, seed_g);
+            f_toyGraph3(G, M, epsilon);
+        }
+        else{
+            cout << "if mode = study_toy_graph, extra arguments are k, N, M, epsilon, seed_g. " << endl;
+            cout << "if k = 1 and k = 2, other arguments are not needed. They are used only for k = 3." << endl;
+        }
     }
-    else{
-        cout << "argument: N, M, epsilon, seed_g, r, P, str" << endl;
-        return 0;
-    }
-    
-    Graph G(N, seed_g);
-    
-    f_toyGraph3(G, M, epsilon);
-    
-    /*
-    //maximum connectivity
-    int z=6;
-    
-    
-    vector < vector <int> > xi;
+    if (mode == "study_random_disordered" or mode == "study_random_hopfield"){
+        if(argc==8){
+            N       = atoi(argv[i++]);
+            M       = atoi(argv[i++]);
+            epsilon = atof(argv[i++]);
+            seed_g  = atoi(argv[i++]);
+            r       = atof(argv[i++]);
+            
+            if (mode == "study_random_disordered"){
+                str_graph_type = argv[i++];
+            
+                G.initializeGraph(N, seed_g);
 
-    if (str == "RR")
-        f_RRgraph(G,M,epsilon);
-    if (str == "ER")
-        f_ERgraph(G,M,epsilon);
-    if (str == "ERC")
-        f_ERCgraph(G,M,epsilon,z);
-    if (str == "NS")
-        f_ERNSgraph(G,M,epsilon,z);
-    if (str == "SH")
-        xi = f_SparseHopfield(G,M,P);
-    */
+                //maximum connectivity
+                int z=6;
+            
+                if (str_graph_type == "RR") f_RRgraph(G,M,epsilon);
+                if (str_graph_type == "ER") f_ERgraph(G,M,epsilon);
+                if (str_graph_type == "ERC") f_ERCgraph(G,M,epsilon,z);
+                if (str_graph_type == "NS") f_ERNSgraph(G,M,epsilon,z);
+            }
+            else if (mode == "study_random_hopfield"){
+                P = atoi(argv[i++]);
+                
+                G.initializeGraph(N, seed_g);
+                vector < vector <int> > xi = f_SparseHopfield(G,M,P);
+            }
+            
+        }
+        else{
+            cout << "if mode = study_random_disordered, extra arguments are N, M, epsilon, seed_g, r, str_graph_type " << endl;
+            cout << "if mode = study_random_hopfield, extra arguments are N, M, epsilon, seed_g, r, P " << endl;
+        }
+    }
     
     
     cout << endl;
