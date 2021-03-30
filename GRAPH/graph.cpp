@@ -48,14 +48,16 @@ Graph::Graph(int p_N, int p_seed_g) : N(p_N), seed_g(p_seed_g) {
 };
 
 
-Graph::initializeGraph(nt p_N, int p_seed_g): N(p_N), seed_g(p_seed_g) {
+void Graph::initializeGraph(int p_N, int p_seed_g){
+    
+    N = p_N;
+    seed_g = p_seed_g;
     
     v.reserve(N);
     for (int i = 0; i < N; ++i)
         v.push_back (Node(i));
     
 };
-
 
 
 int Graph::numberOfTotalLinks(){
