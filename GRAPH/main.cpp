@@ -24,33 +24,41 @@ int main (int argc, char *argv[]){
     if (mode == "study_toy_graph" or mode == "study_random_disordered" or mode == "study_random_hopfield"){
         
         if (mode == "study_toy_graph"){
-            int k = atoi(argv[2]);
-            if(argc==3 and (k==0 or k==1 or k==2) ){
-                seed_g = 0;
-                if(k==0){
-                    N = 0;
-                    G.initializeGraph(N, seed_g);
-                    f_toyGraph0(G);
+            int k;
+            if (argc >= 3){
+                k = atoi(argv[2]);
+                if((k==0 or k==1 or k==2) and argc==3){
+                    seed_g = 0;
+                    if(k==0){
+                        N = 0;
+                        G.initializeGraph(N, seed_g);
+                        f_toyGraph0(G);
+                    }
+                    if(k==1){
+                        N = 5;
+                        G.initializeGraph(N, seed_g);
+                        f_toyGraph1(G);
+                    }
+                    if(k==2){
+                        N = 4;
+                        G.initializeGraph(N, seed_g);
+                        f_toyGraph2(G);
+                    }
                 }
-                if(k==1){
-                    N = 5;
+                if (k==3 and argc==7){
+                    i = 3;
+                    N = atoi(argv[i++]);
+                    M = atoi(argv[i++]);
+                    epsilon = atof(argv[i++]);
+                    seed_g = atoi(argv[i++]);
                     G.initializeGraph(N, seed_g);
-                    f_toyGraph1(G);
+                    f_toyGraph3(G, M, epsilon);
                 }
-                if(k==2){
-                    N = 4;
-                    G.initializeGraph(N, seed_g);
-                    f_toyGraph2(G);
+                else{
+                    cout << "learn the usage launching the code with only the mode specified!" << endl;
+                    return 0;
                 }
-            }
-            if(argc==7 and k==3){
-                i = 3;
-                N = atoi(argv[i++]);
-                M = atoi(argv[i++]);
-                epsilon = atof(argv[i++]);
-                seed_g = atoi(argv[i++]);
-                G.initializeGraph(N, seed_g);
-                f_toyGraph3(G, M, epsilon);
+                    
             }
             else{
                 cout << "if mode = study_toy_graph, extra arguments are k, N, M, epsilon, seed_g. " << endl;
@@ -94,7 +102,7 @@ int main (int argc, char *argv[]){
                 cout << "if mode = study_random_hopfield, extra arguments are N, M, epsilon, seed_g, r, P " << endl;
                 return 0;
             }
-        
+            
             
             
         }
@@ -105,7 +113,7 @@ int main (int argc, char *argv[]){
         cout << "mode must be \n-'study_toy_graph' or \n-'study_random_disordered' or \n-'study_random_hopfield'" << endl;
         return 0;
     }
-        
+    
     
     cout << endl;
     cout << "----------------- These are the connected components -----------------\n";
