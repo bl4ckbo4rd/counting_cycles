@@ -27,7 +27,7 @@ int main (int argc, char *argv[]){
             int k;
             if (argc >= 3){
                 k = atoi(argv[2]);
-                if((k==0 or k==1 or k==2) and argc==3){
+                if((k==0 or k==1 or k==2 or k==3) and argc==3){
                     seed_g = 0;
                     if(k==0){
                         N = 0;
@@ -44,15 +44,20 @@ int main (int argc, char *argv[]){
                         G.initializeGraph(N, seed_g);
                         f_toyGraph2(G);
                     }
+                    if(k==3){
+                        N = 4;
+                        G.initializeGraph(N, seed_g);
+                        f_toyGraph3(G);
+                    }
                 }
-                if (k==3 and argc==7){
+                else if (k==4 and argc==7){
                     i = 3;
                     N = atoi(argv[i++]);
                     M = atoi(argv[i++]);
                     epsilon = atof(argv[i++]);
                     seed_g = atoi(argv[i++]);
                     G.initializeGraph(N, seed_g);
-                    f_toyGraph3(G, M, epsilon);
+                    f_toyGraph4(G, M, epsilon);
                 }
                 else{
                     cout << "learn the usage launching the code with only the mode specified!" << endl;
@@ -62,7 +67,7 @@ int main (int argc, char *argv[]){
             }
             else{
                 cout << "if mode = study_toy_graph, extra arguments are k, N, M, epsilon, seed_g. " << endl;
-                cout << "if k = 1 and k = 2, other arguments are not needed. They are used only for k = 3." << endl;
+                cout << "if k = 1, 2, 3, other arguments are not needed. They are used only for k = 4." << endl;
                 return 0;
             }
         }

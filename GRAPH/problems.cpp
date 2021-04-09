@@ -192,7 +192,7 @@ void f_BPiterationL3(Graph& G, double th, int T, double r){
     
 
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L3>(th, flag_red, flag_approx, T, verbose);
     
@@ -210,7 +210,7 @@ void f_BPiterationL4(Graph& G, double th, int T, double r){
     //difference found between marginals is smaller or equal to th.
     
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L4>(th, flag_red, flag_approx, T, verbose);
     
@@ -296,11 +296,34 @@ void f_toyGraph2(Graph& G){
 }
 
 
-//graph 3 is a RR graph with a frustrated loop
+//graph 3 is a 1d chain of N=4 sites
+void f_toyGraph3(Graph& G){
+        
+    G.addLinkWrapper(0, 1, 1, 1);
+    G.addLinkWrapper(1, 2, 1, 1);
+    G.addLinkWrapper(2, 3, 1, 1);
+    
+    cout << "number of directed links after loop creation " << G.numberOfTotalLinks() << endl;
+
+    G.M = int(G.numberOfTotalLinks() / 2);
+    
+    G.graphStructure();
+    
+    countFixedPointsBruteForce(G);
+    count2CyclesBruteForce(G);
+    count3CyclesBruteForce(G);
+    count4CyclesBruteForce(G);
+    
+    return;
+    
+}
+
+
+//graph 4 is a RR graph with a frustrated loop
 //with couplings so large to be decoupled from
 //the rest of the graph. this motif prevents cycles
 //with period smaller than 8 to be present.
-void f_toyGraph3(Graph& G, int M, double epsilon){
+void f_toyGraph4(Graph& G, int M, double epsilon){
     
     G.RandomRegular(M, epsilon);
     
