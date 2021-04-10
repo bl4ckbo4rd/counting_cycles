@@ -83,7 +83,7 @@ vector < vector <int> >  f_SparseHopfield(Graph& G, int M, int P){
     
     //we build a symmetric RR graph
     //G.RandomRegular(M, 0);
-    f_build_toy1(G);
+    //f_build_toy1(G);
     
     
     
@@ -172,9 +172,9 @@ void f_BPiterationL2(Graph& G, double th, int T, double r){
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L2>(th, flag_red, flag_approx, T, verbose);
     
-    mess.Wrap_computeLastMarg<L2>();
-    mess.linkMarginalState();
-    
+    //mess.Wrap_computeLastMarg<L2>();
+    //mess.linkMarginalState();
+    //mess.messState();
     
 }
 
@@ -192,7 +192,7 @@ void f_BPiterationL3(Graph& G, double th, int T, double r){
     
 
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L3>(th, flag_red, flag_approx, T, verbose);
     
@@ -210,7 +210,7 @@ void f_BPiterationL4(Graph& G, double th, int T, double r){
     //difference found between marginals is smaller or equal to th.
     
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L4>(th, flag_red, flag_approx, T, verbose);
     
@@ -238,7 +238,7 @@ void f_BPiterationL1T1(Graph& G, double th, int T, double r){
 }
 
 
-//graph 0 has N=5, M=0
+//graph 0 has N=0, M=0
 void f_toyGraph0(Graph& G){
     
     G.graphStructure();
@@ -253,119 +253,35 @@ void f_toyGraph0(Graph& G){
 }
 
 
-
 //graph 1 has N=5, M=4
-void f_build_toy1(Graph& G){
-
-    int l = 0;
-    int flag;
-    vector<int> v;
-
-    v = make_vector<int>() << 0 << 1;
-    double J1to0 = 1;
-    flag=G.addLink(l, v, J1to0);
-    l++;
-
-    v = make_vector<int>() << 1 << 0;
-    double J0to1 = 1;
-    flag=G.addLink(l, v, J0to1);
-    l++;
-    
-    v = make_vector<int>() << 1 << 2;
-    double J2to1 = -1;
-    flag=G.addLink(l, v, J2to1);
-    l++;
-    
-    v = make_vector<int>() << 2 << 1;
-    double J1to2 = -1;
-    flag=G.addLink(l, v, J1to2);
-    l++;
-    
-    v = make_vector<int>() << 1 << 4;
-    double J4to1 = -1;
-    flag=G.addLink(l, v, J4to1);
-    l++;
-    
-    v = make_vector<int>() << 4 << 1;
-    double J1to4 = -1;
-    flag=G.addLink(l, v, J1to4);
-    l++;
-
-    v = make_vector<int>() << 2 << 3;
-    double J3to2 = -1;
-    flag=G.addLink(l, v, J3to2);
-    l++;
-    
-    v = make_vector<int>() << 3 << 2;
-    double J2to3 = -1;
-    flag=G.addLink(l, v, J2to3);
-    
-    
-    
-}
-
 void f_toyGraph1(Graph& G){
     
-    f_build_toy1(G);
+    G.addLinkWrapper(0, 1, 1., 1.);
+    G.addLinkWrapper(1, 2, -1., -1.);
+    G.addLinkWrapper(1, 4, -1., -1.);
+    G.addLinkWrapper(2, 3, -1., -1.);
+
     G.graphStructure();
 
     countFixedPointsBruteForce(G);
-    //count2CyclesBruteForce(G);
-    //count3CyclesBruteForce(G);
-    //count4CyclesBruteForce(G);
+    count2CyclesBruteForce(G);
+    count3CyclesBruteForce(G);
+    count4CyclesBruteForce(G);
 
 
     return;
     
 }
 
-//graph 1 has N=4, M=4
+
+//graph 2 has N=4, M=4
 void f_toyGraph2(Graph& G){
     
-    int l = 0;
-    int flag;
-    vector<int> v;
-    
-    v = make_vector<int>() << 0 << 3;
-    double J3to0 = 1.5;
-    flag=G.addLink(l, v, J3to0);
-    l++;
-    
-    v = make_vector<int>() << 0 << 1;
-    double J1to0 = 0.3;
-    flag=G.addLink(l, v, J1to0);
-    l++;
-    
-    v = make_vector<int>() << 0 << 2;
-    double J2to0 = 1.0;
-    flag=G.addLink(l, v, J2to0);
-    l++;
-    
-    v = make_vector<int>() << 1 << 0;
-    double J0to1 = 0.7;
-    flag=G.addLink(l, v, J0to1);
-    l++;
-    
-    v = make_vector<int>() << 1 << 2;
-    double J2to1 = 1.0;
-    flag=G.addLink(l, v, J2to1);
-    l++;
-    
-    v = make_vector<int>() << 2 << 1;
-    double J1to2 = 1.2;
-    flag=G.addLink(l, v, J1to2);
-    l++;
-    
-    v = make_vector<int>() << 2 << 0;
-    double J0to2 = 0.4;
-    flag=G.addLink(l, v, J0to2);
-    l++;
-    
-    v = make_vector<int>() << 3 << 0;
-    double J0to3 = 0.5;
-    flag=G.addLink(l, v, J0to3);
-    l++;
-    
+    G.addLinkWrapper(0, 3, 0.5, 1.5);
+    G.addLinkWrapper(1, 0, 0.3, 0.7);
+    G.addLinkWrapper(2, 0, 1.0, 0.4);
+    G.addLinkWrapper(2, 1, 1.0, 1.2);
+
     
     G.graphStructure();
     
@@ -378,6 +294,64 @@ void f_toyGraph2(Graph& G){
     return;
     
 }
+
+
+//graph 3 is a 1d chain of N=4 sites
+void f_toyGraph3(Graph& G){
+        
+    G.addLinkWrapper(0, 1, 1, 1);
+    G.addLinkWrapper(1, 2, 1, 1);
+    G.addLinkWrapper(2, 3, 1, 1);
+    
+    cout << "number of directed links after loop creation " << G.numberOfTotalLinks() << endl;
+
+    G.M = int(G.numberOfTotalLinks() / 2);
+    
+    G.graphStructure();
+    
+    countFixedPointsBruteForce(G);
+    count2CyclesBruteForce(G);
+    count3CyclesBruteForce(G);
+    count4CyclesBruteForce(G);
+    
+    return;
+    
+}
+
+
+//graph 4 is a RR graph with a frustrated loop
+//with couplings so large to be decoupled from
+//the rest of the graph. this motif prevents cycles
+//with period smaller than 8 to be present.
+void f_toyGraph4(Graph& G, int M, double epsilon){
+    
+    G.RandomRegular(M, epsilon);
+    
+    cout << "number of directed links before loop creation " << G.numberOfTotalLinks() << endl;
+
+    
+    G.addLinkWrapper(0, 1, -50, 0.0000001);
+    G.addLinkWrapper(1, 2, 50, 0.0000001);
+    G.addLinkWrapper(2, 3, 50, 0.0000001);
+    G.addLinkWrapper(3, 0, 50, 0.0000001);
+    
+    
+    cout << "number of directed links after loop creation " << G.numberOfTotalLinks() << endl;
+
+    G.M = int(G.numberOfTotalLinks() / 2);
+    
+    G.graphStructure();
+    
+    countFixedPointsBruteForce(G);
+    count2CyclesBruteForce(G);
+    count3CyclesBruteForce(G);
+    count4CyclesBruteForce(G);
+
+    
+    return;
+    
+}
+
 
 void countFixedPointsBruteForce(Graph& G){
 
@@ -405,52 +379,11 @@ void countFixedPointsBruteForce(Graph& G){
         vector <int> flag;
         flag.resize(N);
         
-        double flag_c = 1;
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
 
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * x[r][*it_k] - 1);
-                
-            }
-            
-            double g;
-            if (h == 0)
-                //g = 2 * x[r][n] -  1;
-                g = -  1;
-            else
-                g = h;
-            
-            if (g * (2 * x[r][n] -  1) > 0)
-                flag[n] = 1;
-            else
-                flag[n] = 0;
-            
-        }
-        
-        prod = 1;
-        for (int n = 0; n < N; n++)
-            flag_c *= flag[n];
-        
-        if (flag_c == 1) {
-            count++;
-            cout << "********************************** fixed point: ******************************" << endl;
-            for (int k = 0; k < N; k++)
-                cout << x[r][k] << " ";
-            cout << endl;
-            
-        }
-        
+        count = check_cycle_condition(G, x[r], x1, 1, count);
+
         
     }
 
@@ -459,6 +392,7 @@ void countFixedPointsBruteForce(Graph& G){
     
     return;
 }
+
 
 
 void count2CyclesBruteForce(Graph& G){
@@ -484,100 +418,16 @@ void count2CyclesBruteForce(Graph& G){
     
     for (int r = 0; r < Nc; r++){
         
-        vector <int> flag;
-        flag.resize(N);
-        
-        vector <int> xp;
-        xp.resize(N);
-        
-        vector <int> xs;
-        xs.resize(N);
-        
-        double flag_c = 1;
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * x[r][*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xp[n] = 1;
-            else if (h < 0)
-                xp[n] = 0;
-            else if (h == 0)
-                //xp[n] = x[r][n];
-                xp[n] = 0;
-                
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xp[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xs[n] = 1;
-            else if (h < 0)
-                xs[n] = 0;
-            else if (h ==0)
-                //xs[n] = xp[n];
-                xs[n] = 0;
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
 
-            n = G.v[it_n->n].n;
-            
-            if ( ((2 * xs[n] - 1) * (2 * x[r][n] -  1)) > 0)
-                flag[n] = 1;
-            else
-                flag[n] = 0;
-            
-        }
-    
-        prod = 1;
-        for (int n = 0; n < N; n++)
-            flag_c *= flag[n];
-        
-        if (flag_c == 1) {
-            count++;
-            cout << "********************************** cycles L = 2: ******************************" << endl;
-            for (int k = 0; k < N; k++)
-                cout << x[r][k] << " ";
-            cout << endl;
-            
-        }
-        
+        count = check_cycle_condition(G, x[r], x2, 2, count);
         
     }
     
-    cout << "number of cycles: " << count << endl;
+    cout << "number of cycles of lenght 2: " << count << endl;
     
     
     return;
@@ -607,129 +457,18 @@ void count3CyclesBruteForce(Graph& G){
     
     for (int r = 0; r < Nc; r++){
         
-        vector <int> flag;
-        flag.resize(N);
-        
-        vector <int> xp;
-        xp.resize(N);
-        
-        vector <int> xs;
-        xs.resize(N);
-        
-        vector <int> xt;
-        xt.resize(N);
-        
-        double flag_c = 1;
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * x[r][*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xp[n] = 1;
-            else if (h < 0)
-                xp[n] = 0;
-            else if (h ==0)
-                //xp[n] = x[r][n];
-                xp[n] = -1;
-                
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xp[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xs[n] = 1;
-            else if (h < 0)
-                xs[n] = 0;
-            else if (h ==0)
-                //xs[n] = xp[n];
-                xs[n] = -1;
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xs[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xt[n] = 1;
-            else if (h < 0)
-                xt[n] = 0;
-            else if (h ==0)
-                //xt[n] = xs[n];
-                xt[n] = -1;
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            if ( ((2 * xt[n] - 1) * (2 * x[r][n] -  1)) > 0)
-                flag[n] = 1;
-            else
-                flag[n] = 0;
-            
-        }
-        
-        prod = 1;
-        for (int n = 0; n < N; n++)
-            flag_c *= flag[n];
-        
-        if (flag_c == 1) {
-            count++;
-            cout << "********************************** cycles L = 3: ******************************" << endl;
-            for (int k = 0; k < N; k++)
-                cout << x[r][k] << " ";
-            cout << endl;
-            
-        }
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+
+        count = check_cycle_condition(G, x[r], x3, 3, count);
         
     }
     
-    cout << "number of cycles: " << count << endl;
+    cout << "number of cycles of length 3: " << count << endl;
     
     
     return;
@@ -759,166 +498,89 @@ void count4CyclesBruteForce(Graph& G){
     
     for (int r = 0; r < Nc; r++){
         
-        vector <int> flag;
-        flag.resize(N);
-        
-        vector <int> xp;
-        xp.resize(N);
-        
-        vector <int> xs;
-        xs.resize(N);
-        
-        vector <int> xt;
-        xt.resize(N);
-        
-        vector <int> xq;
-        xq.resize(N);
-        
-        double flag_c = 1;
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * x[r][*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xp[n] = 1;
-            else if (h < 0)
-                xp[n] = 0;
-            else if (h == 0)
-                //xp[n] = x[r][n];
-                xp[n] = -1;
-                
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xp[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xs[n] = 1;
-            else if (h < 0)
-                xs[n] = 0;
-            else if (h==0)
-                //xs[n] = xp[n];
-                xs[n] = -1;
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+        vector <int> x4(N);
+        x4 = dynamical_step(G, x3);
 
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xs[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xt[n] = 1;
-            else if (h < 0)
-                xt[n] = 0;
-            else if (h==0 )
-                //xt[n] = xs[n];
-                xt[n] = -1;
-
-                
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            h = 0.;
-            
-            for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
-                vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
-                int index_k = distance (G.v[n].v_neigh.begin(), it);
-                
-                int index_J_k_to_n = G.v[n].v_link[index_k];
-                J_k_to_n = G.E[index_J_k_to_n].J;
-                
-                h += J_k_to_n  * (2 * xt[*it_k] - 1);
-                
-            }
-            
-            if (h > 0)
-                xq[n] = 1;
-            else if (h < 0)
-                xq[n] = 0;
-            else if (h==0)
-                //xq[n] = xt[n];
-                xq[n] = -1;
-
-            
-        }
-        
-        for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
-            
-            n = G.v[it_n->n].n;
-            
-            if ( ((2 * xq[n] - 1) * (2 * x[r][n] -  1)) > 0)
-                flag[n] = 1;
-            else
-                flag[n] = 0;
-            
-        }
-        
-        prod = 1;
-        for (int n = 0; n < N; n++)
-            flag_c *= flag[n];
-        
-        if (flag_c == 1) {
-            count++;
-            cout << "********************************** cycles L = 4: ******************************" << endl;
-            for (int k = 0; k < N; k++)
-                cout << x[r][k] << " ";
-            cout << endl;
-            
-        }
+        count = check_cycle_condition(G, x[r], x4, 4, count);
         
     }
     
-    cout << "number of cycles: " << count << endl;
+    cout << "number of cycles of length 4: " << count << endl;
     
     
     return;
 }
 
+vector <int> dynamical_step(Graph& G, vector <int> x){
+    
+    int N = G.N;
+    
+    vector <int> xp(N,0);
+    
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+    
+        int n = G.v[it_n->n].n;
+    
+        double h = 0.;
+    
+        for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
+            vector<int>::iterator it = find(G.v[n].v_neigh.begin(), G.v[n].v_neigh.end(), *it_k);
+            int index_k = distance (G.v[n].v_neigh.begin(), it);
+            
+            int index_J_k_to_n = G.v[n].v_link[index_k];
+            double J_k_to_n = G.E[index_J_k_to_n].J;
+            
+            h += J_k_to_n  * (2 * x[*it_k] - 1);
+            
+        }
+    
+        if (h > 0)
+            xp[n] = 1;
+        else if (h < 0)
+            xp[n] = 0;
+        else if (h == 0)
+            //xp[n] = x[r][n];
+            xp[n] = 0;
+        
+        }
+    
+    return xp;
+}
 
+
+int check_cycle_condition(Graph& G, vector <int> xi, vector <int> xf, int L, int count){
+    int N = G.N;
+
+    vector <int> flag(N);
+    double flag_c = 1;
+    
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+
+        int n = G.v[it_n->n].n;
+        if ( ((2 * xf[n] - 1) * (2 * xi[n] -  1)) > 0)
+            flag[n] = 1;
+        else
+            flag[n] = 0;
+    }
+    
+    double prod = 1;
+    for (int n = 0; n < N; n++)
+        flag_c *= flag[n];
+        
+    if (flag_c == 1) {
+        count++;
+        cout << "********************************** cycles L = " << L << ": ******************************" << endl;
+        for (int k = 0; k < N; k++)
+            cout << xi[k] << " ";
+        cout << endl;
+            
+    }
+    
+    return count;
+}
