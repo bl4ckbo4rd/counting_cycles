@@ -126,6 +126,9 @@ int main (int argc, char *argv[]){
     cout << "----------------------------------------------------------------------\n";
     cout << endl;
     
+    cout <<"\n\n------------------ CYCLES COUNT --------------------------" <<endl;
+    cout <<"----------------------------------------------------------" <<endl;
+
     
     
     clock_t start1 = clock();
@@ -143,14 +146,8 @@ int main (int argc, char *argv[]){
     float sec2 = (float)(end2 - start2) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=2 ----------------------> " << sec2 << endl;
     
-    /*
-    clock_t start21 = clock();
-    f_BPiterationL1T1(G, th, T, r);
-    clock_t end21 = clock();
-    float sec21 = (float)(end21 - start21) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=1-T=1 ----------------------> " << sec21 << endl;
-    */
-  
+
+
     clock_t start3 = clock();
     f_BPiterationL3(G, th, T, r);
     clock_t end3 = clock();
@@ -163,7 +160,21 @@ int main (int argc, char *argv[]){
     clock_t end4 = clock();
     float sec4 = (float)(end4 - start4) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=4 ----------------------> " << sec4 << endl;
+
+
+    cout <<"\n\n------------------ BASINS SIZE COUNT ---------------------" <<endl;
+    cout <<"----------------------------------------------------------" <<endl;
+
+
+     clock_t start21 = clock();
+    f_BPiterationL1T1(G, th, T, r);
+    clock_t end21 = clock();
+    float sec21 = (float)(end21 - start21) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1-T=1 ----------------------> " << sec21 << endl;
     
+    
+    
+
     
     return 1;
 

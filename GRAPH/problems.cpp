@@ -313,6 +313,14 @@ void f_toyGraph3(Graph& G){
     count2CyclesBruteForce(G);
     count3CyclesBruteForce(G);
     count4CyclesBruteForce(G);
+
+    countL1T1BasinsBruteForce(G);
+    countL1T2BasinsBruteForce(G);
+    countL1T3BasinsBruteForce(G);
+
+    countL2T1BasinsBruteForce(G);
+    countL2T2BasinsBruteForce(G);
+    countL2T3BasinsBruteForce(G);
     
     return;
     
@@ -517,6 +525,289 @@ void count4CyclesBruteForce(Graph& G){
     return;
 }
 
+void countL1T1BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl; 
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);   
+
+        if(x[r] != x1){
+
+            count = check_L1basins_condition(G, x[r], x1, x2, 1, count);
+
+        }
+
+        
+    }
+    
+    cout << "\nNumber of states belonging to L = 1 and T = 1 basins: " << count << endl;
+    
+    
+    return;
+}
+
+void countL1T2BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+
+        if(x[r] != x2 && x[r] != x3 && x1 != x2){
+
+            count = check_L1basins_condition(G, x[r], x2, x3, 1, count);
+        }    
+
+        
+    }
+    
+    cout << "\nNumber of states belonging to L = 1 and T = 2 basins: " << count << endl;
+    
+    
+    return;
+}
+
+void countL1T3BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl; 
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+        vector <int> x4(N);
+        x4 = dynamical_step(G, x3);
+
+        if(x[r] != x3 && x1 != x3 && x2 != x3){
+
+            count = check_L1basins_condition(G, x[r], x3, x4, 2, count);
+        }
+
+        
+    }
+    
+    cout << "\nNumber of states belonging to L = 1 and T = 3 basins: " << count << endl;
+    
+    
+    return;
+}
+
+void countL2T1BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+
+        if(x[r] != x2 && x[r] != x1)
+
+            count = check_L2basins_condition(G, x[r], x1, x2, x3, 2, count);
+
+        
+    }
+    
+    cout << "\n\nNumber of states belonging to L = 2 and T = 1 basins: " << count << endl;
+    
+    
+    return;
+}
+
+void countL2T2BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+        vector <int> x4(N);
+        x4 = dynamical_step(G, x3);
+
+        if(x1!= x2 && x2!= x3 && x1!= x3){
+
+            count = check_L2basins_condition(G, x[r], x2, x3, x4, 2, count);
+        }
+
+        
+    }
+    
+    cout << "\n\nNumber of states belonging to L = 2 and T = 2 basins: " << count << endl;
+    
+    
+    return;
+}
+
+void countL2T3BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+        vector <int> x4(N);
+        x4 = dynamical_step(G, x3);
+        vector <int> x5(N);
+        x5 = dynamical_step(G, x4);
+
+        if(x2!= x3 && x3!= x4 && x2!= x4){
+
+            count = check_L2basins_condition(G, x[r], x3, x4, x5, 2, count);
+        }
+
+        
+    }
+    
+    cout << "\n\nNumber of states belonging to L = 2 and T = 3 basins: " << count << endl;
+    
+    
+    return;
+}
+
+
 vector <int> dynamical_step(Graph& G, vector <int> x){
     
     int N = G.N;
@@ -569,13 +860,102 @@ int check_cycle_condition(Graph& G, vector <int> xi, vector <int> xf, int L, int
             flag[n] = 0;
     }
     
-    double prod = 1;
     for (int n = 0; n < N; n++)
         flag_c *= flag[n];
         
     if (flag_c == 1) {
         count++;
         cout << "********************************** cycles L = " << L << ": ******************************" << endl;
+        for (int k = 0; k < N; k++)
+            cout << xi[k] << " ";
+        cout << endl;
+            
+    }
+    
+    return count;
+}
+
+int check_L1basins_condition(Graph& G, vector <int> xp, vector <int> xi, vector <int> xf, int L, int count){
+    int N = G.N;
+
+    vector <int> flag(N);
+    double flag_c = 1;
+    
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+
+        int n = G.v[it_n->n].n;
+        if ( ((2 * xf[n] - 1) * (2 * xi[n] -  1)) > 0 ){
+
+            flag[n] = 1;
+            
+        }else{
+            flag[n] = 0;
+        }
+
+    }
+
+    int n;
+    
+    for (n = 0; n < N; n++){
+        flag_c *= flag[n];
+    }
+    if (flag_c == 1 ) { //&& flag_p != 1 
+        count++;
+        cout << "*************************** state in a basin of a L = " << L << " state: **************************" << endl;
+        for (int k = 0; k < N; k++)
+            cout << xp[k] << " ";
+        cout << "--->\t";
+        for (int k = 0; k < N; k++)
+            cout << xi[k] << " ";
+        cout << endl;
+            
+    }
+    
+    return count;
+}
+
+int check_L2basins_condition(Graph& G, vector <int> xpp, vector <int> xp, vector <int> xi, vector <int> xf, int L, int count){
+    int N = G.N;
+
+    vector <int> flag(N);
+    vector <int> flagp(N);
+    double flag_p = 1;
+    double flag_c = 1;
+    
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+
+        int n = G.v[it_n->n].n;
+        if ( ((2 * xf[n] - 1) * (2 * xp[n] -  1)) > 0 ){
+
+            flag[n] = 1;
+            
+        }else{
+            flag[n] = 0;
+        }
+        if (((2 * xi[n] - 1) * (2 * xp[n] -  1)) > 0){
+
+            flagp[n] = 1;
+
+        }else{
+
+            flagp[n] = 0;
+
+        }
+    }
+
+    int n;
+    
+    for (n = 0; n < N; n++){
+        flag_c *= flag[n];
+        flag_p*=flagp[n];
+    }    
+    if (flag_c == 1 && flag_p != 1) { 
+        count++;
+        cout << "*************************** state in a basin of a L = " << L << " state: **************************" << endl;
+
+        for (int k = 0; k < N; k++)
+            cout << xpp[k] << " ";
+        cout << "--->\t";
         for (int k = 0; k < N; k++)
             cout << xi[k] << " ";
         cout << endl;
