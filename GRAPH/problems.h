@@ -20,6 +20,8 @@ void f_toyGraph3(Graph &);
 
 void f_toyGraph4(Graph &, int, double);
 
+void f_toyGraph5(Graph &);
+
 vector <int> dynamical_step(Graph&, vector <int>);
 
 int check_cycle_condition(Graph&, vector <int>, vector <int>, int, int);
@@ -59,4 +61,14 @@ void f_BPiterationL3(Graph &, double, int, double);
 void f_BPiterationL4(Graph &, double, int, double);
 
 void f_BPiterationL1T1(Graph&, double, int, double);
+
+void f_BPiterationL1T2(Graph&, double, int, double);
+
+void f_BPiterationL1T3(Graph&, double, int, double);
+
+void f_BPiterationL2T1(Graph&, double, int, double);
+
+void f_BPiterationL2T2(Graph&, double, int, double);
+
+void f_BPiterationL2T3(Graph&, double, int, double);
 

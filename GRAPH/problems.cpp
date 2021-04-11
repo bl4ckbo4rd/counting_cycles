@@ -229,9 +229,99 @@ void f_BPiterationL1T1(Graph& G, double th, int T, double r){
     //difference found between marginals is smaller or equal to th.
     
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L1T1>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL1T2(Graph& G, double th, int T, double r){
+    
+    int L = 3;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L1T2>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL1T3(Graph& G, double th, int T, double r){
+    
+    int L = 4;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L1T3>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T1(Graph& G, double th, int T, double r){
+    
+    int L = 3;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T1>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T2(Graph& G, double th, int T, double r){
+    
+    int L = 4;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T2>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T3(Graph& G, double th, int T, double r){
+    
+    int L = 5;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T3>(th, flag_red, flag_approx, T, verbose);
     
     
     
@@ -355,6 +445,36 @@ void f_toyGraph4(Graph& G, int M, double epsilon){
     count3CyclesBruteForce(G);
     count4CyclesBruteForce(G);
 
+    
+    return;
+    
+}
+
+//N = 4, M = 3, 4 disconnected nodes
+void f_toyGraph5(Graph& G){
+        
+    G.addLinkWrapper(0, 1, 0, 0);
+    G.addLinkWrapper(1, 2, 0, 0);
+    G.addLinkWrapper(2, 3, 0, 0);
+    
+    cout << "number of directed links after loop creation " << G.numberOfTotalLinks() << endl;
+
+    G.M = int(G.numberOfTotalLinks() / 2);
+    
+    G.graphStructure();
+    
+    countFixedPointsBruteForce(G);
+    count2CyclesBruteForce(G);
+    count3CyclesBruteForce(G);
+    count4CyclesBruteForce(G);
+
+    countL1T1BasinsBruteForce(G);
+    countL1T2BasinsBruteForce(G);
+    countL1T3BasinsBruteForce(G);
+
+    countL2T1BasinsBruteForce(G);
+    countL2T2BasinsBruteForce(G);
+    countL2T3BasinsBruteForce(G);
     
     return;
     
@@ -564,7 +684,7 @@ void countL1T1BasinsBruteForce(Graph& G){
         
     }
     
-    cout << "\nNumber of states belonging to L = 1 and T = 1 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 1 in T = 1 steps: " << count << endl;
     
     
     return;
@@ -610,7 +730,7 @@ void countL1T2BasinsBruteForce(Graph& G){
         
     }
     
-    cout << "\nNumber of states belonging to L = 1 and T = 2 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 1 in T = 2 steps: " << count << endl;
     
     
     return;
@@ -652,13 +772,13 @@ void countL1T3BasinsBruteForce(Graph& G){
 
         if(x[r] != x3 && x1 != x3 && x2 != x3){
 
-            count = check_L1basins_condition(G, x[r], x3, x4, 2, count);
+            count = check_L1basins_condition(G, x[r], x3, x4, 1, count);
         }
 
         
     }
     
-    cout << "\nNumber of states belonging to L = 1 and T = 3 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 1 in T = 3 steps: " << count << endl;
     
     
     return;
@@ -703,7 +823,7 @@ void countL2T1BasinsBruteForce(Graph& G){
         
     }
     
-    cout << "\n\nNumber of states belonging to L = 2 and T = 1 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 2 in T = 1 steps: " << count << endl;
     
     
     return;
@@ -751,7 +871,7 @@ void countL2T2BasinsBruteForce(Graph& G){
         
     }
     
-    cout << "\n\nNumber of states belonging to L = 2 and T = 2 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 2 in T = 2 steps: " << count << endl;
     
     
     return;
@@ -801,7 +921,7 @@ void countL2T3BasinsBruteForce(Graph& G){
         
     }
     
-    cout << "\n\nNumber of states belonging to L = 2 and T = 3 basins: " << count << endl;
+    cout << "\nNumber of confs evolving in cycles of L = 2 in T = 3 steps: " << count << endl;
     
     
     return;
@@ -901,7 +1021,7 @@ int check_L1basins_condition(Graph& G, vector <int> xp, vector <int> xi, vector 
     }
     if (flag_c == 1 ) { //&& flag_p != 1 
         count++;
-        cout << "*************************** state in a basin of a L = " << L << " state: **************************" << endl;
+        cout << "*************************** state in a basin of a L = " << L << " cycle: **************************" << endl;
         for (int k = 0; k < N; k++)
             cout << xp[k] << " ";
         cout << "--->\t";
@@ -951,7 +1071,7 @@ int check_L2basins_condition(Graph& G, vector <int> xpp, vector <int> xp, vector
     }    
     if (flag_c == 1 && flag_p != 1) { 
         count++;
-        cout << "*************************** state in a basin of a L = " << L << " state: **************************" << endl;
+        cout << "*************************** state in a basin of a L = " << L << " cycle: **************************" << endl;
 
         for (int k = 0; k < N; k++)
             cout << xpp[k] << " ";
