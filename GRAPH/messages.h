@@ -11,6 +11,7 @@ struct L3 { };     //cycle of lenght 3
 struct L4 { };     //cycle of lenght 4
 
 struct L1T1 { };  //1 time basin of attraction of cycle of lenght 1
+struct L1T2 { };  //2 time basin of attraction of cycle of lenght 1
 
 class Messages{
 public:
@@ -42,6 +43,7 @@ public:
     inline void def_constraint(L4, int flag_red, int z, int n, vector <double>& vec_J_k_to_n);
     
     inline void def_constraint(L1T1, int flag_red, int z, int n, vector <double>& vec_J_k_to_n);
+    inline void def_constraint(L1T2, int flag_red, int z, int n, vector <double>& vec_J_k_to_n);
 
     
     template<typename Tag>
@@ -55,7 +57,7 @@ public:
     inline void def_constraint_bp(L4, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i);
     
     inline void def_constraint_bp(L1T1, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i);
-
+    inline void def_constraint_bp(L1T2, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i);
     
     
     template<typename Tag>
@@ -79,6 +81,7 @@ public:
     void def_printEntropy(L4, double Part1, double Part2);
 
     void def_printEntropy(L1T1, double Part1, double Part2);
+    void def_printEntropy(L1T2, double Part1, double Part2);
 
     
     
@@ -93,6 +96,7 @@ public:
     void def_print_BPit(L4, double tmp_th, int t);
 
     void def_print_BPit(L1T1, double tmp_th, int t);
+    void def_print_BPit(L1T2, double tmp_th, int t);
     
     template<typename Tag>
     void look_up_table(int flag_red);                           //this function fills the vector allowed_conf for each node.
