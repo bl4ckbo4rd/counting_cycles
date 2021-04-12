@@ -46,6 +46,8 @@ void countL2T1BasinsBruteForce(Graph&);
 
 void countL2T2BasinsBruteForce(Graph&);
 
+void countL2T3BasinsBruteForce(Graph&);
+
 void f_BPiterationL1(Graph &, double, int, double);
 
 void f_BPGD_L1(Graph& G, double th, int T, double r);
