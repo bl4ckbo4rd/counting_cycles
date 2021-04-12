@@ -3390,6 +3390,23 @@ void Messages::def_printEntropy(L1T1, double Part1, double Part2){
     
 }
 
+void Messages::def_printEntropy(L1T2, double Part1, double Part2){
+    
+    if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
+        cout << "Entropy-L1T2: " << -1000 << endl;
+        cout << "Number of confs evolving in cycles of L=1 in T=2 steps : " << 0 << endl;
+        cout << "NUMBER-L1T2 " << 0 << endl;
+        cout << "Entropy-L1T2 " << -1000 << endl;
+    }
+    else{
+        cout << "Entropy-L1T2: " << (- 0.5 * Part1 + Part2) / N << endl;
+        cout << "Number of confs evolving in cycles of L=1 in T=2 steps : " << exp (- 0.5 * Part1 + Part2) << endl;
+        cout << "NUMBER-L1T2 " << exp (- 0.5 * Part1 + Part2) << endl;
+        cout << "Entropy-L1T2 " << (- 0.5 * Part1 + Part2) / N << endl;
+    }
+    
+};
+
 
 void Messages::def_print_BPit(L1, double tmp_th, int t){
     
@@ -3440,6 +3457,15 @@ void Messages::def_print_BPit(L1T1, double tmp_th, int t){
 
 }
 
+void Messages::def_print_BPit(L1T2, double tmp_th, int t){
+    
+    cout << endl;
+    cout << "BP iteration stopped with an error equal to " << tmp_th << endl;
+    cout << "ERROR-L2T2 " << tmp_th << endl;
+    cout << "BP TIME STEPS-L2T2 " << t << endl;
+
+}
+
 
 
 //these are template methods and needs to be specified for the linker
@@ -3459,12 +3485,16 @@ template void Messages::look_up_table<L4>(int);
 template void Messages::look_up_table_bp<L1T1>(int);
 template void Messages::look_up_table<L1T1>(int);
 
+template void Messages::look_up_table_bp<L1T2>(int);
+template void Messages::look_up_table<L1T2>(int);
+
 template void Messages::BPiteration<L1>(double, int, int, int, bool);
 template void Messages::BPiteration<L2>(double, int, int, int, bool);
 template void Messages::BPiteration<L3>(double, int, int, int, bool);
 template void Messages::BPiteration<L4>(double, int, int, int, bool);
 
 template void Messages::BPiteration<L1T1>(double, int, int, int, bool);
+template void Messages::BPiteration<L1T2>(double, int, int, int, bool);
 
 template void Messages::Wrap_computeLastMarg<L1>();
 template void Messages::Wrap_computeLastMarg<L2>();
@@ -3476,3 +3506,4 @@ template void Messages::logPartitionFunction<L3>();
 template void Messages::logPartitionFunction<L4>();
 
 template void Messages::logPartitionFunction<L1T1>();
+template void Messages::logPartitionFunction<L1T2>();
