@@ -60,3 +60,13 @@ void f_BPiterationL4(Graph &, double, int, double);
 
 void f_BPiterationL1T1(Graph&, double, int, double);
 
+void f_BPiterationL1T2(Graph&, double, int, double);
+
+void f_BPiterationL1T3(Graph&, double, int, double);
+
+void f_BPiterationL2T1(Graph&, double, int, double);
+
+void f_BPiterationL2T2(Graph&, double, int, double);
+
+void f_BPiterationL2T3(Graph&, double, int, double);
+
