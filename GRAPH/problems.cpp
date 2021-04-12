@@ -562,6 +562,52 @@ void countL1T1BasinsBruteForce(Graph& G){
     return;
 }
 
+void countL1T2BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);
+        vector <int> x3(N);
+        x3 = dynamical_step(G, x2);
+
+        if(x[r] != x2 && x[r] != x3 && x1 != x2){
+
+            count = check_L1basins_condition(G, x[r], x2, x3, 1, count);
+        }    
+
+        
+    }
+    
+    cout << "\nNumber of confs evolving in cycles of L = 1 in T = 2 steps: " << count << endl;
+    
+    
+    return;
+}
+
 vector <int> dynamical_step(Graph& G, vector <int> x){
     
     int N = G.N;
