@@ -229,9 +229,99 @@ void f_BPiterationL1T1(Graph& G, double th, int T, double r){
     //difference found between marginals is smaller or equal to th.
     
     bool verbose = 0;
-    int flag_red = 1;       //set to 1 to study the reduced BP equations
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
     int flag_approx = 0;    //set to 1 to study approximate BP updating
     mess.BPiteration<L1T1>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL1T2(Graph& G, double th, int T, double r){
+    
+    int L = 3;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L1T2>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL1T3(Graph& G, double th, int T, double r){
+    
+    int L = 4;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L1T3>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T1(Graph& G, double th, int T, double r){
+    
+    int L = 3;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T1>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T2(Graph& G, double th, int T, double r){
+    
+    int L = 4;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T2>(th, flag_red, flag_approx, T, verbose);
+    
+    
+    
+}
+
+void f_BPiterationL2T3(Graph& G, double th, int T, double r){
+    
+    int L = 5;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    mess.BPiteration<L2T3>(th, flag_red, flag_approx, T, verbose);
     
     
     
