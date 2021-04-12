@@ -403,6 +403,14 @@ void f_toyGraph3(Graph& G){
     count2CyclesBruteForce(G);
     count3CyclesBruteForce(G);
     count4CyclesBruteForce(G);
+
+    countL1T1BasinsBruteForce(G);
+    countL1T2BasinsBruteForce(G);
+    countL1T3BasinsBruteForce(G);
+
+    countL2T1BasinsBruteForce(G);
+    countL2T2BasinsBruteForce(G);
+    countL2T3BasinsBruteForce(G);
     
     return;
     
