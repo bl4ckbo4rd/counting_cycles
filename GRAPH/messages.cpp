@@ -1981,8 +1981,8 @@ inline void Messages::def_constraint_bp(L1T1, int flag_red, int z, int l, vector
                     else
                         gip = hip;
                     
-                    if ( gip * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xi - 1 ) > 0 ){
-                        
+                    if (gi * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xip - 1 ) > 0){
+                            
                         int s=0;
                         for (int k=1; k <= z*L; k++){
                             s += x[r][k-1] * (1<<(L*z-k));
@@ -1990,6 +1990,8 @@ inline void Messages::def_constraint_bp(L1T1, int flag_red, int z, int l, vector
                         
                         allowed_conf_bp[l][t_ij].push_back(s);
                     }
+                    
+                    
                     
                 }
                 
@@ -2026,16 +2028,19 @@ inline void Messages::def_constraint_bp(L1T1, int flag_red, int z, int l, vector
                             gip = -1;
                         else
                             gip = hip;
-                        
-                        if ( gip * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xi - 1 ) > 0 ){
+                    
+                        if (gi * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xip - 1 ) > 0){
                             
                             int s=0;
                             for (int k=1; k <= z*L; k++){
                                 s += x[r][k-1] * (1<<(L*z-k));
                             }
-                            
+                        
                             allowed_conf_bp[l][t_ij].push_back(s);
                         }
+                    
+                    
+                        
                         
                     }
                     
@@ -2123,10 +2128,9 @@ inline void Messages::def_constraint(L1T1, int flag_red, int z, int n, vector <d
                 //gnp =  2 * xnp - 1;
                 gnp = -1;
             else
-                gnp = hp[r];
-                
+                gnp = hp[r];                
             
-            if ( gnp * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xn - 1 ) > 0 ){
+            if (gn * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xnp - 1 ) > 0){
                 
                 int s=0;
                 for (int k=1; k <= z*L; k++){
@@ -2164,7 +2168,7 @@ inline void Messages::def_constraint(L1T1, int flag_red, int z, int n, vector <d
                 else
                     gnp = hp[r];
                 
-                if ( gnp * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xn - 1 ) > 0 ){
+                if (gn * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xnp - 1 ) > 0){
                     
                     int s=0;
                     for (int k=1; k <= z*L; k++){
