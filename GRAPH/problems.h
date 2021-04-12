@@ -26,6 +26,8 @@ int check_cycle_condition(Graph&, vector <int>, vector <int>, int, int);
 
 int check_L1basins_condition(Graph&, vector <int>, vector <int>, vector <int>, int, int);
 
+int check_L2basins_condition(Graph&, vector <int>, vector <int>, vector <int>, vector <int>, int, int);
+
 void countFixedPointsBruteForce(Graph&);
 
 void count2CyclesBruteForce(Graph&);
@@ -39,6 +41,8 @@ void countL1T1BasinsBruteForce(Graph&);
 void countL1T2BasinsBruteForce(Graph&);
 
 void countL1T3BasinsBruteForce(Graph&);
+
+void countL2T1BasinsBruteForce(Graph&);
 
 void f_BPiterationL1(Graph &, double, int, double);
 
