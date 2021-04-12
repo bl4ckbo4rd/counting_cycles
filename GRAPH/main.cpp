@@ -128,6 +128,11 @@ int main (int argc, char *argv[]){
     
     
     
+    cout <<"\n\n------------------ CYCLES COUNT --------------------------" <<endl;
+    cout <<"----------------------------------------------------------" <<endl;
+
+    
+    
     clock_t start1 = clock();
     f_BPiterationL1(G, th, T, r);
     //f_BPGD_L1(G, th, T, r);
@@ -143,14 +148,8 @@ int main (int argc, char *argv[]){
     float sec2 = (float)(end2 - start2) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=2 ----------------------> " << sec2 << endl;
     
-    /*
-    clock_t start21 = clock();
-    f_BPiterationL1T1(G, th, T, r);
-    clock_t end21 = clock();
-    float sec21 = (float)(end21 - start21) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=1-T=1 ----------------------> " << sec21 << endl;
-    */
-  
+
+
     clock_t start3 = clock();
     f_BPiterationL3(G, th, T, r);
     clock_t end3 = clock();
@@ -163,6 +162,47 @@ int main (int argc, char *argv[]){
     clock_t end4 = clock();
     float sec4 = (float)(end4 - start4) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=4 ----------------------> " << sec4 << endl;
+
+
+    cout <<"\n\n------------------ BASINS SIZE COUNT ---------------------" <<endl;
+    cout <<"----------------------------------------------------------" <<endl;
+
+
+    clock_t start11 = clock();
+    f_BPiterationL1T1(G, th, T, r);
+    clock_t end11 = clock();
+    float sec11 = (float)(end11 - start11) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1-T=1 ----------------------> " << sec11 << endl;
+
+    clock_t start12 = clock();
+    f_BPiterationL1T2(G, th, T, r);
+    clock_t end12 = clock();
+    float sec12 = (float)(end12 - start12) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1-T=2 ----------------------> " << sec12 << endl;
+
+    clock_t start13 = clock();
+    f_BPiterationL1T3(G, th, T, r);
+    clock_t end13 = clock();
+    float sec13 = (float)(end13 - start13) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1-T=3 ----------------------> " << sec13 << endl;
+
+    clock_t start21 = clock();
+    f_BPiterationL2T1(G, th, T, r);
+    clock_t end21 = clock();
+    float sec21 = (float)(end21 - start21) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=2-T=1 ----------------------> " << sec21 << endl;
+
+    clock_t start22 = clock();
+    f_BPiterationL2T2(G, th, T, r);
+    clock_t end22 = clock();
+    float sec22 = (float)(end22 - start22) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=2-T=2 ----------------------> " << sec22 << endl;
+
+    clock_t start23 = clock();
+    f_BPiterationL2T3(G, th, T, r);
+    clock_t end23 = clock();
+    float sec23 = (float)(end23 - start23) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=2-T=3 ----------------------> " << sec23 << endl;
     
     
     return 1;
