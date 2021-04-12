@@ -517,6 +517,51 @@ void count4CyclesBruteForce(Graph& G){
     return;
 }
 
+void countL1T1BasinsBruteForce(Graph& G){
+    
+    int N = G.N;
+    
+    //this is the number of configurations
+    int Nc = (int) pow(2.,N);
+    //x is the vector of configurations: x[r][k] is the value of the spin k in the configuration r
+    vector < vector <int> > x;
+    x.resize(Nc);
+    
+    for (int r = 0; r < Nc; r++){
+        x[r].resize(N);
+        
+        for (int k = 0; k < N; k++)
+            x[r][k] = ( ( r & (int)pow(2.,k) ) >> k ) ;
+    }
+    
+    int n, count = 0, count_fix = 0;
+    double h, prod;
+    double J_k_to_n;
+
+    cout << "\n\n" << endl; 
+    
+    for (int r = 0; r < Nc; r++){
+        
+        vector <int> x1(N);
+        x1 = dynamical_step(G, x[r]);
+        vector <int> x2(N);
+        x2 = dynamical_step(G, x1);   
+
+        if(x[r] != x1){
+
+            count = check_L1basins_condition(G, x[r], x1, x2, 1, count);
+
+        }
+
+        
+    }
+    
+    cout << "\nNumber of confs evolving in cycles of L = 1 in T = 1 steps: " << count << endl;
+    
+    
+    return;
+}
+
 vector <int> dynamical_step(Graph& G, vector <int> x){
     
     int N = G.N;
@@ -576,6 +621,45 @@ int check_cycle_condition(Graph& G, vector <int> xi, vector <int> xf, int L, int
     if (flag_c == 1) {
         count++;
         cout << "********************************** cycles L = " << L << ": ******************************" << endl;
+        for (int k = 0; k < N; k++)
+            cout << xi[k] << " ";
+        cout << endl;
+            
+    }
+    
+    return count;
+}
+
+int check_L1basins_condition(Graph& G, vector <int> xp, vector <int> xi, vector <int> xf, int L, int count){
+    int N = G.N;
+
+    vector <int> flag(N);
+    double flag_c = 1;
+    
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+
+        int n = G.v[it_n->n].n;
+        if ( ((2 * xf[n] - 1) * (2 * xi[n] -  1)) > 0 ){
+
+            flag[n] = 1;
+            
+        }else{
+            flag[n] = 0;
+        }
+
+    }
+
+    int n;
+    
+    for (n = 0; n < N; n++){
+        flag_c *= flag[n];
+    }
+    if (flag_c == 1 ) { 
+        count++;
+        cout << "*************************** state in a basin of a L = " << L << " cycle: **************************" << endl;
+        for (int k = 0; k < N; k++)
+            cout << xp[k] << " ";
+        cout << "--->\t";
         for (int k = 0; k < N; k++)
             cout << xi[k] << " ";
         cout << endl;
