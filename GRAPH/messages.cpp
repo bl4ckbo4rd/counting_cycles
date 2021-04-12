@@ -3333,7 +3333,438 @@ inline void Messages::def_constraint(L2T1, int flag_red, int z, int n, vector <d
     
 }
 
+inline void Messages::def_constraint_bp(L2T2, int flag_red, int z, int l, vector <double>& vec_J_k_to_i, double J_j_to_i) {
+    
+    int xk, xkp, xks, xkt;
+    int z2, z3, z4;
+    double hi, hip, his, hit;
+    int t_ij;
+    
+    L=4;
+    
+    //this is the number of combinations of the spins k's.
+    int Nc = (int) pow(pow(2.,L),z);
+    
+    vector < vector <int> > x;
+    
+    compute_x(Nc, z, x);
+    
+    //these vectors have a value for each configurations of the spins k's
+    //local field acting on i
+    vector <double> h(Nc, 0.);
+    //local field acting on i at the second time step
+    vector <double> hp(Nc,0.);
+    //local field acting on i at the third time step
+    vector <double> hs(Nc,0.);
+    //local field acting on i at the fourth time step
+    vector <double> ht(Nc,0.);
+    
+    z2 = 2*z;
+    z3 = 3*z;
+    z4 = 4*z;
+    
+    
+    for (int r = 0; r < Nc; r++){
+        
+        h[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's and xks's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the first time step
+        
+        for (int k = 0; k < z; k++){
+            xk = x[r][k];
+            h[r] += vec_J_k_to_i[k] * (2 * xk - 1);
+        }
+        
+        hp[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's  xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the second time step
+        
+        int k_p = 0;
+        for (int k = z; k < z2; k++){
+            xkp = x[r][k];
+            hp[r] += vec_J_k_to_i[k_p] * (2 * xkp - 1);
+            k_p ++;
+        }
+        
+        hs[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's  xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the third time step
+        
+        int k_s = 0;
+        for (int k = z2; k < z3; k++){
+            xks = x[r][k];
+            hs[r] += vec_J_k_to_i[k_s] * (2 * xks - 1);
+            k_s ++;
+        }
+        
+        ht[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's  xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the third time step
+        
+        int k_t = 0;
+        for (int k = z3; k < z4; k++){
+            xkt = x[r][k];
+            ht[r] += vec_J_k_to_i[k_t] * (2 * xkt - 1);
+            k_t ++;
+        }
+        
+        
+        
+    }
+    
+    int xi = 0;
+    for (int xj = 0; xj < 2; ++xj){
+        for (int xip = 0; xip < 2; ++xip){
+            for (int xjp = 0; xjp < 2; ++xjp){
+                for (int xis = 0; xis < 2; ++xis){
+                    for (int xjs = 0; xjs < 2; ++xjs){
+                        for (int xit = 0; xit < 2; ++xit){
+                            for (int xjt = 0; xjt < 2; ++xjt){
+                        
+                                t_ij = 128 * xi + 64 * xj + 32 * xip + 16 * xjp + 8 * xis + 4 * xjs + 2 * xit + xjt;
+                                
+                                for (int r = 0; r < Nc; r++){
+                                    //local field acting on i at the first time step
+                                    hi  = J_j_to_i * (2 * xj - 1)  + h[r];
+                                    //local field acting on i at the second time step
+                                    hip = J_j_to_i * (2 * xjp - 1) + hp[r];
+                                    //local field acting on i at the third time step
+                                    his = J_j_to_i * (2 * xjs - 1) + hs[r];
+                                    //local field acting on i at the fourth time step
+                                    hit = J_j_to_i * (2 * xjt - 1) + ht[r];
+                                    
+                                    
+                                    double gi;
+                                    if (hi == 0)
+                                        //gi = 2 * xi - 1;
+                                        gi = -1;
+                                    else
+                                        gi = hi;
+                                    
+                                    double gip;
+                                    if (hip == 0)
+                                        //gip = 2 * xip - 1;
+                                        gip = -1;
+                                    else
+                                        gip = hip;
+                                    
+                                    double gis;
+                                    if (his == 0)
+                                        //gis = 2 * xis - 1;
+                                        gis = -1;
+                                    else
+                                        gis = his;
+                                    
+                                    double git;
+                                    if (hit == 0)
+                                        //git = 2 * xit - 1;
+                                        git = -1;
+                                    else
+                                        git = hit;
+                                    
+                                    if ( gi * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xis - 1 ) > 0 && gis * ( 2 * xit - 1 ) > 0 && git * ( 2 * xis - 1 ) > 0 ){
+                                        
+                                        int s=0;
+                                        for (int k=1; k <= z*L; k++){
+                                            s += x[r][k-1] * (1<<(L*z-k));
+                                        }
+                                        
+                                        allowed_conf_bp[l][t_ij].push_back(s);
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+        
+        //if (it_l->l == 62) cout << "mess ( t_ij = " << t_ij << " ) = " << mess_ij[t_ij] << endl;
+        
+    }
+    
+    if (flag_red == 0){
+        xi = 1;
+        for (int xj = 0; xj < 2; ++xj){
+            for (int xip = 0; xip < 2; ++xip){
+                for (int xjp = 0; xjp < 2; ++xjp){
+                    for (int xis = 0; xis < 2; ++xis){
+                        for (int xjs = 0; xjs < 2; ++xjs){
+                            for (int xit = 0; xit < 2; ++xit){
+                                for (int xjt = 0; xjt < 2; ++xjt){
+                                    
+                                    t_ij = 128 * xi + 64 * xj + 32 * xip + 16 * xjp + 8 * xis + 4 * xjs + 2 * xit + xjt;
+                                    
+                                    for (int r = 0; r < Nc; r++){
+                                        //local field acting on i at the first time step
+                                        hi  = J_j_to_i * (2 * xj - 1)  + h[r];
+                                        //local field acting on i at the second time step
+                                        hip = J_j_to_i * (2 * xjp - 1) + hp[r];
+                                        //local field acting on i at the third time step
+                                        his = J_j_to_i * (2 * xjs - 1) + hs[r];
+                                        //local field acting on i at the fourth time step
+                                        hit = J_j_to_i * (2 * xjt - 1) + ht[r];
+                                        
+                                        double gi;
+                                        if (hi == 0)
+                                            //gi = 2 * xi - 1;
+                                            gi = -1;
+                                        else
+                                            gi = hi;
+                                        
+                                        double gip;
+                                        if (hip == 0)
+                                            //gip = 2 * xip - 1;
+                                            gip = -1;
+                                        else
+                                            gip = hip;
+                                        
+                                        double gis;
+                                        if (his == 0)
+                                            //gis = 2 * xis - 1;
+                                            gis = -1;
+                                        else
+                                            gis = his;
+                                        
+                                        double git;
+                                        if (hit == 0)
+                                            //git = 2 * xit - 1;
+                                            git = -1;
+                                        else
+                                            git = hit;
+                                        
+                                        if ( gi * ( 2 * xip - 1 ) > 0 && gip * ( 2 * xis - 1 ) > 0 && gis * ( 2 * xit - 1 ) > 0 && git * ( 2 * xis - 1 ) > 0 ){
+                                            
+                                            int s=0;
+                                            for (int k=1; k <= z*L; k++){
+                                                s += x[r][k-1] * (1<<(L*z-k));
+                                            }
+                                            
+                                            allowed_conf_bp[l][t_ij].push_back(s);
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                }
+                
+            }
+            
+            //if (it_l->l == 62) cout << "mess ( t_ij = " << t_ij << " ) = " << mess_ij[t_ij] << endl;
+            
+        }
+        
+    }
+    
+}
 
+inline void Messages::def_constraint(L2T2, int flag_red, int z, int n, vector <double>& vec_J_k_to_n){
+    
+    int xk, xkp, xks, xkt;
+    int z2, z3, z4;
+    int tn;
+    
+    L=4;
+    
+    //this is the number of combinations of the spins k's.
+    int Nc = (int) pow(pow(2.,L),z);
+    
+    vector < vector <int> > x;
+    
+    compute_x(Nc, z, x);
+    
+    //these vectors have a value for each configurations of the spins k's
+    //local field acting on i
+    vector <double> h(Nc, 0.);
+    //local field acting on i at the second time step
+    vector <double> hp(Nc,0.);
+    //local field acting on i at the third time step
+    vector <double> hs(Nc,0.);
+    //local field acting on i at the fourth time step
+    vector <double> ht(Nc,0.);
+    
+    z2 = 2*z;
+    z3 = 3*z;
+    z4 = 4*z;
+    
+    for (int r = 0; r < Nc; r++){
+        
+        h[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's  xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the first time step
+        
+        for (int k = 0; k < z; k++){
+            xk = x[r][k];
+            h[r] += vec_J_k_to_n[k] * (2 * xk - 1);
+        }
+        
+        hp[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the second time step
+        
+        int k_p = 0;
+        for (int k = z; k < z2; k++){
+            xkp = x[r][k];
+            hp[r] += vec_J_k_to_n[k_p] * (2 * xkp - 1);
+            k_p ++;
+        }
+        
+        hs[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the third time step
+        
+        int k_s = 0;
+        for (int k = z2; k < z3; k++){
+            xks = x[r][k];
+            hs[r] += vec_J_k_to_n[k_s] * (2 * xks - 1);
+            k_s ++;
+        }
+        
+        ht[r] = 0;
+        //for each value of r (i.e. for each combination of the xk's  xkp's xks's and xkt's)
+        //we compute the value of the contribution to the local field given by the neighbours of i except j at the third time step
+        
+        int k_t = 0;
+        for (int k = z3; k < z4; k++){
+            xkt = x[r][k];
+            ht[r] += vec_J_k_to_n[k_t] * (2 * xkt - 1);
+            k_t ++;
+        }
+        
+    }
+    
+    
+    
+    int xn = 0;
+    for (int xnp = 0; xnp < 2; ++xnp){
+        for (int xns = 0; xns < 2; ++xns){
+            for (int xnt = 0; xnt < 2; ++xnt){
+            
+                tn = 8 * xn + 4 * xnp + 2 * xns + xnt;
+                
+                for (int r = 0; r < Nc; r++){
+                    
+                    
+                    double gn;
+                    if ( h[r] == 0)
+                        //gn = 2 * xn - 1;
+                        gn = -1;
+                    else
+                        gn = h[r];
+                    
+                    double gnp;
+                    if (hp[r] == 0)
+                        //gnp =  2 * xnp - 1;
+                        gnp = -1;
+                    else
+                        gnp = hp[r];
+                    
+                    double gns;
+                    if (hs[r] == 0)
+                        //gns =  2 * xns - 1;
+                        gns = -1;
+                    else
+                        gns = hs[r];
+                    
+                    double gnt;
+                    if (ht[r] == 0)
+                        //gnt =  2 * xnt - 1;
+                        gnt = -1;
+                    else
+                        gnt = ht[r];
+                    
+                    
+                    
+                    if ( gn * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xns - 1 ) > 0 && gns * ( 2 * xnt - 1 ) > 0 && gnt * ( 2 * xns - 1 ) > 0 ){
+                        int s=0;
+                        for (int k=1; k <= z*L; k++){
+                            s += x[r][k-1] * (1<<(L*z-k));
+                        }
+                        
+                        allowed_conf[n][tn].push_back(s);
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+    }
+    
+    if (flag_red == 0){
+        xn = 1;
+        for (int xnp = 0; xnp < 2; ++xnp){
+            for (int xns = 0; xns < 2; ++xns){
+                for (int xnt = 0; xnt < 2; ++xnt){
+                    
+                    tn = 8 * xn + 4 * xnp + 2 * xns + xnt;
+                    
+                    for (int r = 0; r < Nc; r++){
+                        
+                        
+                        double gn;
+                        if ( h[r] == 0)
+                            //gn = 2 * xn - 1;
+                            gn = -1;
+                        else
+                            gn = h[r];
+                        
+                        double gnp;
+                        if (hp[r] == 0)
+                            //gnp =  2 * xnp - 1;
+                            gnp = -1;
+                        else
+                            gnp = hp[r];
+                        
+                        double gns;
+                        if (hs[r] == 0)
+                            //gns =  2 * xns - 1;
+                            gns = -1;
+                        else
+                            gns = hs[r];
+                        
+                        double gnt;
+                        if (ht[r] == 0)
+                            //gnt =  2 * xnt - 1;
+                            gnt = -1;
+                        else
+                            gnt = ht[r];
+                        
+                        
+                        if ( gn * ( 2 * xnp - 1 ) > 0 && gnp * ( 2 * xns - 1 ) > 0 && gns * ( 2 * xnt - 1 ) > 0 && gnt * ( 2 * xns - 1 ) > 0 ){
+                            int s=0;
+                            for (int k=1; k <= z*L; k++){
+                                s += x[r][k-1] * (1<<(L*z-k));
+                            }
+                            
+                            allowed_conf[n][tn].push_back(s);
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+        
+    }
+    
+}
 
 //------------------------------------------------------------------------------ COMPUTE VECTOR OF CONFS --------------------------------------------------------------------------------//
 
@@ -4224,6 +4655,23 @@ void Messages::def_printEntropy(L2T1, double Part1, double Part2){
     
 };
 
+void Messages::def_printEntropy(L2T2, double Part1, double Part2){
+    
+    if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
+        cout << "Entropy-L2T2: " << -1000 << endl;
+        cout << "Number of confs evolving in cycles of L=2 in T=2 steps : " << 0 << endl;
+        cout << "NUMBER-L2T2 " << 0 << endl;
+        cout << "Entropy-L2T2 " << -1000 << endl;
+    }
+    else{
+        cout << "Entropy-L2T2: " << (- 0.5 * Part1 + Part2) / N << endl;
+        cout << "Number of confs evolving in cycles of L=2 in T=2 steps : " << exp (- 0.5 * Part1 + Part2) << endl;
+        cout << "NUMBER-L2T2 " << exp (- 0.5 * Part1 + Part2) << endl;
+        cout << "Entropy-L2T2 " << (- 0.5 * Part1 + Part2) / N << endl;
+    }
+    
+};
+
 
 void Messages::def_print_BPit(L1, double tmp_th, int t){
     
@@ -4301,6 +4749,14 @@ void Messages::def_print_BPit(L2T1, double tmp_th, int t){
 
 }
 
+void Messages::def_print_BPit(L2T2, double tmp_th, int t){
+    
+    cout << endl;
+    cout << "BP iteration stopped with an error equal to " << tmp_th << endl;
+    cout << "ERROR-L2T2 " << tmp_th << endl;
+    cout << "BP TIME STEPS-L2T2 " << t << endl;
+
+}
 
 //these are template methods and needs to be specified for the linker
 
@@ -4328,6 +4784,9 @@ template void Messages::look_up_table<L1T3>(int);
 template void Messages::look_up_table_bp<L2T1>(int);
 template void Messages::look_up_table<L2T1>(int);
 
+template void Messages::look_up_table_bp<L2T2>(int);
+template void Messages::look_up_table<L2T2>(int);
+
 template void Messages::BPiteration<L1>(double, int, int, int, bool);
 template void Messages::BPiteration<L2>(double, int, int, int, bool);
 template void Messages::BPiteration<L3>(double, int, int, int, bool);
@@ -4337,10 +4796,10 @@ template void Messages::BPiteration<L1T1>(double, int, int, int, bool);
 template void Messages::BPiteration<L1T2>(double, int, int, int, bool);
 template void Messages::BPiteration<L1T3>(double, int, int, int, bool);
 template void Messages::BPiteration<L2T1>(double, int, int, int, bool);
+template void Messages::BPiteration<L2T2>(double, int, int, int, bool);
 
 template void Messages::Wrap_computeLastMarg<L1>();
 template void Messages::Wrap_computeLastMarg<L2>();
-
 
 template void Messages::logPartitionFunction<L1>();
 template void Messages::logPartitionFunction<L2>();
@@ -4351,3 +4810,4 @@ template void Messages::logPartitionFunction<L1T1>();
 template void Messages::logPartitionFunction<L1T2>();
 template void Messages::logPartitionFunction<L1T3>();
 template void Messages::logPartitionFunction<L2T1>();
+template void Messages::logPartitionFunction<L2T2>();
