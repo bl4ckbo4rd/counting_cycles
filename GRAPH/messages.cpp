@@ -178,7 +178,7 @@ void Messages::messUpdate(){
         int index_j = distance (G.v[i].v_neigh.begin(), it);
         
         
-        if (it_l->l == 62) cout << "message from node " << i << " to node " << j << endl;
+        //if (it_l->l == 62) cout << "message from node " << i << " to node " << j << endl;
         //compute message mess_i_to_j
         vector <vector <long double> > in_mess;
         
@@ -191,7 +191,7 @@ void Messages::messUpdate(){
         for(vector<int>::iterator it_k = G.v[i].v_neigh.begin(); it_k != G.v[i].v_neigh.end(); ++it_k){
             //where k is different from j
             if(*it_k != j){
-                if (it_l->l == 62) cout << "k: " << *it_k << endl;
+                //if (it_l->l == 62) cout << "k: " << *it_k << endl;
                 
                 vector<int>::iterator it = find(G.v[*it_k].v_neigh.begin(), G.v[*it_k].v_neigh.end(), i);
                 int index_i = distance (G.v[*it_k].v_neigh.begin(), it);
@@ -205,14 +205,14 @@ void Messages::messUpdate(){
                 
                 int index_J_k_to_i = G.v[i].v_link[index_k];
                 
-                if (it_l->l == 62) cout << "Jk->i " << G.E[index_J_k_to_i].J << endl;
+                //if (it_l->l == 62) cout << "Jk->i " << G.E[index_J_k_to_i].J << endl;
                 
                 vec_J_k_to_i.push_back(G.E[index_J_k_to_i].J);
                 z++;
             }
             //where k is equal to j
             else{
-                if (it_l->l == 62) cout << "j: " << *it_k << endl;
+                //if (it_l->l == 62) cout << "j: " << *it_k << endl;
                 
                 vector<int>::iterator it_j = find(G.v[i].v_neigh.begin(), G.v[i].v_neigh.end(), *it_k);
                 int index_j = distance (G.v[i].v_neigh.begin(), it_j);
@@ -221,7 +221,7 @@ void Messages::messUpdate(){
                 
                 J_j_to_i = G.E[index_J_j_to_i].J;
                 
-                if (it_l->l == 62) cout << "Jj->i: " << G.E[index_J_j_to_i].J << endl;
+                //if (it_l->l == 62) cout << "Jj->i: " << G.E[index_J_j_to_i].J << endl;
             }
         }
         
