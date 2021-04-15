@@ -16,6 +16,8 @@ int main (int argc, char *argv[]){
     
     string  str_graph_type;
     string mode;
+
+    srand48(time(0));
     
     int i = 1;
     if (argc > 1)
@@ -80,6 +82,11 @@ int main (int argc, char *argv[]){
                 seed_g  = atoi(argv[i++]);
                 r       = atof(argv[i++]);
                 
+                if(seed_g == 0){
+                    seed_g = (int)(lrand48());
+                    cout << "seed = " << seed_g << endl;
+                }
+                
                 if (mode == "study_random_disordered"){
                     str_graph_type = argv[i++];
                     
@@ -103,8 +110,8 @@ int main (int argc, char *argv[]){
                 
             }
             else{
-                cout << "if mode = study_random_disordered, extra arguments are N, M, epsilon, seed_g, r, str_graph_type " << endl;
-                cout << "if mode = study_random_hopfield, extra arguments are N, M, epsilon, seed_g, r, P " << endl;
+                cout << "if mode = study_random_disordered, extra arguments are N, M, epsilon, seed_g, r, str_graph_type" << endl;
+                cout << "if mode = study_random_hopfield, extra arguments are N, M, epsilon, seed_g, r, P\nIf seed_g = 0 seed is generated at random" << endl;
                 return 0;
             }
             
