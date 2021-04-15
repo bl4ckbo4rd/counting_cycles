@@ -5008,8 +5008,10 @@ void Messages::logPartitionFunction(){
     
     cout << "S_link: "  << 0.5 * Part1 << endl;
     cout << "S_node: " << Part2 << endl;
+
+    int print_file = 0;         //set print_file = 1/0 to print/not print the values of complexities on file .dat
     
-    printEntropy<Tag>(Part1, Part2);
+    printEntropy<Tag>(Part1, Part2, print_file);
 
 }
 
@@ -5022,7 +5024,8 @@ void vec_print(vector<int>& vec){
 
 //------------------------------------------------------------------------------------- PRINT FUNCTIONS ---------------------------------------------------------------------------------//
 
-void Messages::def_printEntropy(L1, double Part1, double Part2){
+void Messages::def_printEntropy(L1, double Part1, double Part2, int print_file){
+
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L1: " << -1000 << endl;
@@ -5036,11 +5039,16 @@ void Messages::def_printEntropy(L1, double Part1, double Part2){
         cout << "NUMBER-L1 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L1 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
-    
+
+    if(print_file == 1){
+        ofstream writer("L1.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    }  
 }
 
 
-void Messages::def_printEntropy(L2, double Part1, double Part2){
+void Messages::def_printEntropy(L2, double Part1, double Part2, int print_file){
+
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L2: " << -1000 << endl;
@@ -5054,11 +5062,16 @@ void Messages::def_printEntropy(L2, double Part1, double Part2){
         cout << "NUMBER-L2 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L2 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L2.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    }  
     
 }
 
 
-void Messages::def_printEntropy(L3, double Part1, double Part2){
+void Messages::def_printEntropy(L3, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L3: " << -1000 << endl;
@@ -5072,10 +5085,15 @@ void Messages::def_printEntropy(L3, double Part1, double Part2){
         cout << "NUMBER-L3 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L3 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L3.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
 }
 
 
-void Messages::def_printEntropy(L4, double Part1, double Part2){
+void Messages::def_printEntropy(L4, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L4: " << -1000 << endl;
@@ -5089,11 +5107,16 @@ void Messages::def_printEntropy(L4, double Part1, double Part2){
         cout << "NUMBER-L4 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L4 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L4.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
     
 }
 
 
-void Messages::def_printEntropy(L1T1, double Part1, double Part2){
+void Messages::def_printEntropy(L1T1, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L1T1: " << -1000 << endl;
@@ -5107,10 +5130,15 @@ void Messages::def_printEntropy(L1T1, double Part1, double Part2){
         cout << "NUMBER-L1T1 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L1T1 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L1T1.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
     
 }
 
-void Messages::def_printEntropy(L1T2, double Part1, double Part2){
+void Messages::def_printEntropy(L1T2, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L1T2: " << -1000 << endl;
@@ -5124,10 +5152,15 @@ void Messages::def_printEntropy(L1T2, double Part1, double Part2){
         cout << "NUMBER-L1T2 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L1T2 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L1T2.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
     
 };
 
-void Messages::def_printEntropy(L1T3, double Part1, double Part2){
+void Messages::def_printEntropy(L1T3, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L1T3: " << -1000 << endl;
@@ -5141,10 +5174,15 @@ void Messages::def_printEntropy(L1T3, double Part1, double Part2){
         cout << "NUMBER-L1T3 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L1T3 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L1T3.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
     
 };
 
-void Messages::def_printEntropy(L2T1, double Part1, double Part2){
+void Messages::def_printEntropy(L2T1, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L2T1: " << -1000 << endl;
@@ -5158,10 +5196,15 @@ void Messages::def_printEntropy(L2T1, double Part1, double Part2){
         cout << "NUMBER-L2T1 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L2T1 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L2T1.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    } 
     
 };
 
-void Messages::def_printEntropy(L2T2, double Part1, double Part2){
+void Messages::def_printEntropy(L2T2, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L2T2: " << -1000 << endl;
@@ -5175,10 +5218,15 @@ void Messages::def_printEntropy(L2T2, double Part1, double Part2){
         cout << "NUMBER-L2T2 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L2T2 " << (- 0.5 * Part1 + Part2) / N << endl;
     }
+
+    if(print_file == 1){
+        ofstream writer("L2T2.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
+    }
     
 };
 
-void Messages::def_printEntropy(L2T3, double Part1, double Part2){
+void Messages::def_printEntropy(L2T3, double Part1, double Part2, int print_file){
     
     if (std::isnan( (- 0.5 * Part1 + Part2) ) ){
         cout << "Entropy-L2T3: " << -1000 << endl;
@@ -5191,6 +5239,11 @@ void Messages::def_printEntropy(L2T3, double Part1, double Part2){
         cout << "Number of confs evolving in cycles of L=2 in T=3 steps : " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "NUMBER-L2T3 " << exp (- 0.5 * Part1 + Part2) << endl;
         cout << "Entropy-L2T3 " << (- 0.5 * Part1 + Part2) / N << endl;
+    }
+
+    if(print_file == 1){
+        ofstream writer("L2T3.dat" , ios::app);
+        writer << (- 0.5 * Part1 + Part2) / N << endl;
     }
     
 };
@@ -5267,8 +5320,8 @@ void Messages::def_print_BPit(L2T1, double tmp_th, int t){
     
     cout << endl;
     cout << "BP iteration stopped with an error equal to " << tmp_th << endl;
-    cout << "ERROR-L2T2 " << tmp_th << endl;
-    cout << "BP TIME STEPS-L2T2 " << t << endl;
+    cout << "ERROR-L2T1 " << tmp_th << endl;
+    cout << "BP TIME STEPS-L2T1 " << t << endl;
 
 }
 

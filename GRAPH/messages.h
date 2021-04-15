@@ -83,21 +83,21 @@ public:
     
     
     template<typename Tag>
-    void printEntropy(double Part1, double Part2){
-        def_printEntropy(Tag(), Part1, Part2);
+    void printEntropy(double Part1, double Part2, int print_file){
+        def_printEntropy(Tag(), Part1, Part2, print_file);
     }
     
-    void def_printEntropy(L1, double Part1, double Part2);
-    void def_printEntropy(L2, double Part1, double Part2);
-    void def_printEntropy(L3, double Part1, double Part2);
-    void def_printEntropy(L4, double Part1, double Part2);
+    void def_printEntropy(L1, double Part1, double Part2, int print_file);
+    void def_printEntropy(L2, double Part1, double Part2, int print_file);
+    void def_printEntropy(L3, double Part1, double Part2, int print_file);
+    void def_printEntropy(L4, double Part1, double Part2, int print_file);
 
-    void def_printEntropy(L1T1, double Part1, double Part2);
-    void def_printEntropy(L1T2, double Part1, double Part2);
-    void def_printEntropy(L1T3, double Part1, double Part2);
-    void def_printEntropy(L2T1, double Part1, double Part2);
-    void def_printEntropy(L2T2, double Part1, double Part2);
-    void def_printEntropy(L2T3, double Part1, double Part2);
+    void def_printEntropy(L1T1, double Part1, double Part2, int print_file);
+    void def_printEntropy(L1T2, double Part1, double Part2, int print_file);
+    void def_printEntropy(L1T3, double Part1, double Part2, int print_file);
+    void def_printEntropy(L2T1, double Part1, double Part2, int print_file);
+    void def_printEntropy(L2T2, double Part1, double Part2, int print_file);
+    void def_printEntropy(L2T3, double Part1, double Part2, int print_file);
 
     
     
