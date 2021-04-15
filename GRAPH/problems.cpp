@@ -82,7 +82,7 @@ vector < vector <int> >  f_SparseHopfield(Graph& G, int M, int P){
     
     
     //we build a symmetric RR graph
-    //G.RandomRegular(M, 0);
+    G.RandomRegular(M, 0);
     //f_build_toy1(G);
     
     
