@@ -71,12 +71,13 @@ vector < vector <int> >  f_SparseHopfield(Graph& G, int M, int P){
     vector < vector < double > > J(N, vector<double>(N,0.));
     
     for (int i=0; i<N; i++){
-        for (int j=0; j<N; j++){
+        for (int j = i+1; j<N; j++){
             for (int m=0; m<P; m++){
                 J[i][j] += xi_s[m][i] * xi_s[m][j];
             }
             
             J[i][j] /= c;
+            J[j][i] = J[i][j];
         }
     }
     
