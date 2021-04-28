@@ -78,14 +78,14 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
 
         if (value == 0){
             int xn = 1;
-            for(int xj = 0; xj <1; xj++){
+            for(int xj = 0; xj <=1; xj++){
                 int t_nj = 2 * xn + xj;
                 mess.bias[n][index_j][t_nj] = 0.;
             }
         }
         else{
             int xn = 0;
-            for(int xj = 0; xj <1; xj++){
+            for(int xj = 0; xj <=1; xj++){
                 int t_nj = 2 * xn + xj;
                 mess.bias[n][index_j][t_nj] = 0.;
             }
