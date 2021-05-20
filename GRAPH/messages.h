@@ -79,6 +79,8 @@ public:
     
     inline vector<long double> def_computeMarginalsLastTime(L1, int l);
     inline vector<long double> def_computeMarginalsLastTime(L1T1, int l);
+    inline vector<long double> def_computeMarginalsLastTime(L1T2, int l);
+    
     inline vector<long double> def_computeMarginalsLastTime(L2, int l);
 
     

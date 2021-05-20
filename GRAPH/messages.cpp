@@ -4627,6 +4627,52 @@ inline vector <long double> Messages::def_computeMarginalsLastTime(L1T1, int l) 
     
 }
 
+inline vector <long double> Messages::def_computeMarginalsLastTime(L1T2, int l) {
+    
+    
+    double sum1 = 0.;
+
+    vector<long double> v_link_marginal(2, 0.);
+    
+    int xi = 0;
+    for (int xj = 0; xj < 2; ++xj){
+        for(int xip = 0; xip < 2; ++xip){
+            for(int xjp = 0; xjp < 2; ++xjp){
+                for(int xipp = 0; xipp < 2; ++xipp){
+                    for(int xjpp = 0; xjpp < 2; ++xjpp){
+                        int t_ij = 32 * xipp + 16 * xjpp + 8 * xip + 4 * xjp + 2 * xi + xj;
+                        sum1 += super_marginal[l][t_ij];
+                    }
+                }
+            }
+        }
+    }
+    
+    v_link_marginal[0] = sum1;
+    
+    sum1 = 0.;
+    
+    int xj = 0;
+    for (int xi = 0; xi < 2; ++xi){
+        for(int xip = 0; xip < 2; ++xip){
+            for(int xjp = 0; xjp < 2; ++xjp){
+                for(int xipp = 0; xipp < 2; ++xipp){
+                    for(int xjpp = 0; xjpp < 2; ++xjpp){
+                        int t_ij = 32 * xipp + 16 * xjpp + 8 * xip + 4 * xjp + 2 * xi + xj;
+                        sum1 += super_marginal[l][t_ij];
+                    }
+                }
+            }
+        }
+    }
+    
+    v_link_marginal[1] = sum1;
+
+        
+    return v_link_marginal;
+    
+}
+
 
 
 inline vector <long double> Messages::def_computeMarginalsLastTime(L2, int l) {
@@ -5428,6 +5474,7 @@ template void Messages::BPiteration<L2T3>(double, int, int, int, bool);
 
 template void Messages::Wrap_computeLastMarg<L1>();
 template void Messages::Wrap_computeLastMarg<L1T1>();
+template void Messages::Wrap_computeLastMarg<L1T2>();
 template void Messages::Wrap_computeLastMarg<L2>();
 
 template void Messages::logPartitionFunction<L1>();

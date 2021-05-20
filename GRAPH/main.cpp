@@ -225,6 +225,12 @@ int main (int argc, char *argv[]){
      clock_t endd11 = clock();
     float secd11 = (float)(endd11 - startd11) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=1 T=1 - Decimated ----------------------> " << secd11 << endl;
+
+    clock_t startd12 = clock();
+    f_BPGD_L1T2(G, th, T, r);   
+     clock_t endd12 = clock();
+    float secd12 = (float)(endd12 - startd12) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1 T=2 - Decimated ----------------------> " << secd12 << endl;
     
     
     return 1;
