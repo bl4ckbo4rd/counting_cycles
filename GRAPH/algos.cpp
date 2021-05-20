@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 template<typename Tag>
-void BPGD::initDecimation(vector<int>& v_bias, vector<bool>& v_q){
+void BPGD::initDecimation(vector<int>& v_bias, vector<bool>& v_q, vector<int>& fixedSpins, vector<bool>& fixedValues, vector<int>& notFixedSpins){
     
     
     for(int i = 0; i < mess.N; ++i)
@@ -159,4 +159,4 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q){
 
 template void BPGD::setHardBias<L1>(vector<int>&, vector<bool>&);
 
-template void BPGD::initDecimation<L1>(vector<int>&, vector<bool>&);
+template void BPGD::initDecimation<L1>(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
