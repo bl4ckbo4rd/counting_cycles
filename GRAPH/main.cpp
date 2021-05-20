@@ -210,6 +210,15 @@ int main (int argc, char *argv[]){
     clock_t end23 = clock();
     float sec23 = (float)(end23 - start23) / CLOCKS_PER_SEC;
     cout << "time elapsed for L=2-T=3 ----------------------> " << sec23 << endl;
+
+    cout <<"\n\n--------------------+ DECIMATION +-----------------------" <<endl;
+    cout <<"----------------------------------------------------------" <<endl;
+
+    clock_t startd1 = clock();
+    f_BPGD_L1(G, th, T, r);   
+     clock_t endd1 = clock();
+    float secd1 = (float)(endd1 - startd1) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1-Decimated ----------------------> " << secd1 << endl;
     
     
     return 1;
