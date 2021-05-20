@@ -150,14 +150,14 @@ void f_BPGD_L1(Graph& G, double th, int T, double r){
         
     Algo.initDecimation<L1>(v_bias,v_q, fixedSpins, fixedValues, notFixedSpins);
     
-    Algo.mess.BPiteration<L1>(th, flag_red, flag_approx, T, verbose);
+    Algo.BPGDiteration<L1>(th, flag_red, flag_approx, T, verbose, v_bias,v_q, fixedSpins, fixedValues, notFixedSpins);
 
-    Algo.mess.Wrap_computeLastMarg<L1>();
+    //Algo.mess.Wrap_computeLastMarg<L1>();
     
-    Algo.mess.linkMarginalState();
+    //Algo.mess.linkMarginalState();
     
-    Algo.mess.nodeMarginals();
-    Algo.mess.nodeMarginalState();
+    //Algo.mess.nodeMarginals();
+    //Algo.mess.nodeMarginalState();
     
 };
 

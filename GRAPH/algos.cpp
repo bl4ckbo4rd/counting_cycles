@@ -95,7 +95,8 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
         for(int xn = 0; xn <=1; xn++){
             for(int xj = 0; xj <=1; xj++){
                 int t_nj = 2 * xn + xj;
-                cout << "stampo bias " <<mess.bias[n][index_j][t_nj] << endl;
+                cout << "fixed spin: " << n << "and neighbour: " << j << endl;
+                cout << "print bias: " <<mess.bias[n][index_j][t_nj] << endl;
             }
         }
         
@@ -111,23 +112,23 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> &
     double tmp, max = 0.;
     
     
-    for (vector<int>::iterator it_i = notFixedSpins.begin(); it_i != notFixedSpins.end(); ++it_i){
-        tmp = mess.node_marginal[*it_i][0] - mess.node_marginal[*it_i][1];
-        if (abs(tmp) > 0.999){
+    //for (vector<int>::iterator it_i = notFixedSpins.begin(); it_i != notFixedSpins.end(); ++it_i){
+    //    tmp = mess.node_marginal[*it_i][0] - mess.node_marginal[*it_i][1];
+    //    if (abs(tmp) > 0.999){
             
-            if (tmp > 0)
-                col = 0;
-            else
-                col = 1;
+    //        if (tmp > 0)
+    //            col = 0;
+    //        else
+    //            col = 1;
             
-            v_bias.push_back(*it_i);
-            v_q.push_back(col);
+    //        v_bias.push_back(*it_i);
+    //        v_q.push_back(col);
             
-        }
+    //    }
         
-    }
+    //}
     
-    if (v_bias.size() == 0){
+    //if (v_bias.size() == 0){
         
         for (vector<int>::iterator it_i = notFixedSpins.begin(); it_i != notFixedSpins.end(); ++it_i){
             tmp = mess.node_marginal[*it_i][0] - mess.node_marginal[*it_i][1];
@@ -149,44 +150,43 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> &
         v_bias.push_back(i_max);
         v_q.push_back(col);
 
-    }
-    if(v_bias.size()){
-
-        int size = v_bias.size();
-        if (size != v_q.size()){
-            cout << "error: v_q and v_bias have to have the same size!" << endl;
-            return;
-        }else{
-            for (int i = 0; i < size; ++i){
-                int n = v_bias[i];
-                fixedSpins.push_back(n);
-                fixedValues.push_back(v_q[i]);
-                notFixedSpins.erase(remove(notFixedSpins.begin(), notFixedSpins.end(), n), notFixedSpins.end());
-                
-            }
-        }
-        
-        cout << "SIZE NOT FIXED: " << notFixedSpins.size() ;
-        
-        setHardBias<Tag>(v_bias, v_q);
-        
-
-        
-    }
+    //}
     
-    
+
+    int size = v_bias.size();
+    if (size != v_q.size()){
+        cout << "error: v_q and v_bias have to have the same size!" << endl;
+        return;
+    }else{
+        int n = v_bias[size-1];
+        fixedSpins.push_back(n);
+        fixedValues.push_back(v_q[size-1]);
+        notFixedSpins.erase(remove(notFixedSpins.begin(), notFixedSpins.end(), n), notFixedSpins.end());
+        cout << n << " removed!" << endl;        
+            
+    }
+        
+    cout << "SIZE NOT FIXED: " << notFixedSpins.size() << endl;
+    cout << "v_bias length: " << v_bias.size() << endl ;
+    cout << "v_q length: " << v_q.size() << endl;
+        
+    setHardBias<Tag>(v_bias, v_q);
+        
+
 };
 
 template<typename Tag>
 void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool verbose, vector<int> & v_bias, vector<bool>& v_q, vector<int> & fixedSpins, vector<bool>& fixedValues, vector<int> & notFixedSpins){
     
+    mess.look_up_table_bp<Tag>(flag_red);
+    mess.look_up_table<Tag>(flag_red);
+
     for(int l = 0; l < mess.G.numberOfTotalNodes()+1; l++){
+
+        cout << "iteration: " << l << endl;
 
         int    t = 0;
         double tmp_th = 1;
-
-        mess.look_up_table_bp<Tag>(flag_red);
-        mess.look_up_table<Tag>(flag_red);
 
         //MM is the number of configurations used to compute the BP update in the approximate case
         int MM = 10000;
@@ -221,6 +221,8 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
         mess.nodeMarginalState();
         findMostBiased<L1>(v_bias, v_q, fixedSpins, fixedValues, notFixedSpins);
 
+
+
         if(l == mess.G.numberOfTotalNodes()){
             mess.print_BPit<Tag>(tmp_th, t);
     
@@ -246,3 +248,5 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
 template void BPGD::setHardBias<L1>(vector<int>&, vector<bool>&);
 
 template void BPGD::initDecimation<L1>(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
+
+template void BPGD::BPGDiteration<L1>(double, int, int, int, bool, vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
