@@ -46,12 +46,13 @@ public:
     inline void def_setHardBiasSite(L1, int i, int value);
     
     template<typename Tag>
-    void findMostBiased(vector<int>&, vector<bool>&);           //after having ran the BP equation till convergence, we find the most biased variables.
+    void findMostBiased(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);           //after having ran the BP equation till convergence, we find the most biased variables.
                                                                 //by this we mean variables for which | p[0]-p[1] | > 0.999 or,if none, the variable with the largest
                                                                 //absolute value of the difference p[0]-p[1].
                                                                 //the search is carefully made only on the variables that have not been fixed yet.
                                                                 //this method is called inside BPguidedDecimation.
-     
+    template<typename Tag>
+    void BPGDiteration(double, int, int, int, bool, vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);     
 
     
 };
