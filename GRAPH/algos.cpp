@@ -191,7 +191,7 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
     mess.look_up_table_bp<Tag>(flag_red);
     mess.look_up_table<Tag>(flag_red);
 
-    for(int l = 0; l < mess.G.numberOfTotalNodes()+1; l++){
+    for(int l = 0; l < 0.5*mess.G.numberOfTotalNodes()+1; l++){
 
         cout << endl;
         cout << "iteration: " << l << endl;
@@ -232,10 +232,11 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
         mess.nodeMarginals();
         mess.nodeMarginalState();
         findMostBiased<Tag>(v_bias, v_q, fixedSpins, fixedValues, notFixedSpins);
+        mess.superMarginalsState();
 
 
+        if(l == 0.5*mess.G.numberOfTotalNodes()){
 
-        if(l == mess.G.numberOfTotalNodes()){
             mess.print_BPit<Tag>(tmp_th, t);
     
             if(verbose){
