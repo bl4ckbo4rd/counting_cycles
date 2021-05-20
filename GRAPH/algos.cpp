@@ -74,6 +74,9 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
                            
         vector<int>::iterator it_j = find(mess.G.v[n].v_neigh.begin(), mess.G.v[n].v_neigh.end(), j);
         int index_j = distance (mess.G.v[n].v_neigh.begin(), it_j);
+
+        vector<int>::iterator it_i = find(mess.G.v[j].v_neigh.begin(), mess.G.v[j].v_neigh.end(), n);
+        int index_i = distance (mess.G.v[j].v_neigh.begin(), it_i);
     
 
         if (value == 0){
@@ -81,13 +84,20 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
             for(int xj = 0; xj <=1; xj++){
                 int t_nj = 2 * xn + xj;
                 mess.bias[n][index_j][t_nj] = 0.;
+
+                int t_jn = 2 * xj + xn;
+                mess.bias[j][index_i][t_jn] = 0.;
             }
+
         }
         else{
             int xn = 0;
             for(int xj = 0; xj <=1; xj++){
                 int t_nj = 2 * xn + xj;
                 mess.bias[n][index_j][t_nj] = 0.;
+
+                int t_jn = 2 * xj + xn;
+                mess.bias[j][index_i][t_jn] = 0.;
             }
                    
         }
@@ -167,8 +177,8 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> &
     }
         
     cout << "SIZE NOT FIXED: " << notFixedSpins.size() << endl;
-    cout << "v_bias length: " << v_bias.size() << endl ;
-    cout << "v_q length: " << v_q.size() << endl;
+    cout << "v_bias size: " << v_bias.size() << endl ;
+    cout << "v_q size: " << v_q.size() << endl;
         
     setHardBias<Tag>(v_bias, v_q);
         
@@ -183,7 +193,9 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
 
     for(int l = 0; l < mess.G.numberOfTotalNodes()+1; l++){
 
+        cout << endl;
         cout << "iteration: " << l << endl;
+        cout << endl;
 
         int    t = 0;
         double tmp_th = 1;
@@ -215,11 +227,11 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
             t++;
         
         }
-        mess.Wrap_computeLastMarg<L1>();
+        mess.Wrap_computeLastMarg<Tag>();
         //mess.linkMarginalState();
         mess.nodeMarginals();
         mess.nodeMarginalState();
-        findMostBiased<L1>(v_bias, v_q, fixedSpins, fixedValues, notFixedSpins);
+        findMostBiased<Tag>(v_bias, v_q, fixedSpins, fixedValues, notFixedSpins);
 
 
 
