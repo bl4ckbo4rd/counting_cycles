@@ -218,7 +218,13 @@ int main (int argc, char *argv[]){
     f_BPGD_L1(G, th, T, r);   
      clock_t endd1 = clock();
     float secd1 = (float)(endd1 - startd1) / CLOCKS_PER_SEC;
-    cout << "time elapsed for L=1-Decimated ----------------------> " << secd1 << endl;
+    cout << "time elapsed for L=1 - Decimated ----------------------> " << secd1 << endl;
+
+    clock_t startd11 = clock();
+    f_BPGD_L1T1(G, th, T, r);   
+     clock_t endd11 = clock();
+    float secd11 = (float)(endd11 - startd11) / CLOCKS_PER_SEC;
+    cout << "time elapsed for L=1 T=1 - Decimated ----------------------> " << secd11 << endl;
     
     
     return 1;
