@@ -13,7 +13,7 @@ public:
     BPGD(Messages & p_mess) : mess(p_mess) {};
     
     template<typename Tag>
-    void initDecimation(vector<int> &, vector<bool> &);         //this method set an hard bias on some specified variables
+    void initDecimation(vector<int> &, vector<bool> &, vector<int> &, vector<bool> &, vector<int> &);         //this method set an hard bias on some specified variables
                                                                 //the first vector contains the biased variables
                                                                 //the second vector contains the colours toward which the biased nodes are biased.
                                                                 //it also fills the vectors fixedSpins and fixedValues and notFixedSpins.
