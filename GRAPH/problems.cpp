@@ -141,11 +141,14 @@ void f_BPGD_L1(Graph& G, double th, int T, double r){
     
     vector <int> v_bias;
     vector <bool> v_q;
+    vector <int> fixedSpins;
+    vector <bool> fixedValues;
+    vector <int> notFixedSpins;
     
-    v_bias.push_back(0);
+    v_bias.push_back(0); //why?
     v_q.push_back(1);
         
-    Algo.initDecimation<L1>(v_bias,v_q);
+    Algo.initDecimation<L1>(v_bias,v_q, fixedSpins, fixedValues, notFixedSpins);
     
     Algo.mess.BPiteration<L1>(th, flag_red, flag_approx, T, verbose);
 
