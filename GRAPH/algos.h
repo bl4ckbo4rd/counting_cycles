@@ -45,7 +45,7 @@ public:
     //these are different functions, labelled by the first argument
     inline void def_setHardBiasSite(L1, int i, int value);
     
-    
+    template<typename Tag>
     void findMostBiased(vector<int>&, vector<bool>&);           //after having ran the BP equation till convergence, we find the most biased variables.
                                                                 //by this we mean variables for which | p[0]-p[1] | > 0.999 or,if none, the variable with the largest
                                                                 //absolute value of the difference p[0]-p[1].

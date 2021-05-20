@@ -103,7 +103,7 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
         
 }
 
-
+template<typename Tag>
 void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q){
     
     int    i_max = notFixedSpins[0];
@@ -149,6 +149,29 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q){
         v_bias.push_back(i_max);
         v_q.push_back(col);
 
+    }
+    if(v_bias.size()){
+
+        int size = v_bias.size();
+        if (size != v_q.size()){
+            cout << "error: v_q and v_bias have to have the same size!" << endl;
+            return;
+        }else{
+            for (int i = 0; i < size; ++i){
+                int n = v_bias[i];
+                fixedSpins.push_back(n);
+                fixedValues.push_back(v_q[i]);
+                notFixedSpins.erase(remove(notFixedSpins.begin(), notFixedSpins.end(), n), notFixedSpins.end());
+                
+            }
+        }
+        
+        cout << "SIZE NOT FIXED: " << notFixedSpins.size() ;
+        
+        setHardBias<Tag>(v_bias, v_q);
+        
+
+        
     }
     
     
