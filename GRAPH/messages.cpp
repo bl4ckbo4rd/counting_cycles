@@ -123,6 +123,7 @@ void Messages::initMessages(){
             //and so on...
             
             vector <long double> tmp_mess(Q,0.);
+            vector <long double> ones(Q,1.);
             
             double sum = 0.;
             for (int i = 0; i < Q; i ++){
@@ -140,7 +141,7 @@ void Messages::initMessages(){
             update_mess[i][index_j].resize(Q);
             
             bias[i][index_j].resize(Q);
-            bias[i][index_j] = tmp_mess;
+            bias[i][index_j] = ones;
             
         }
         
