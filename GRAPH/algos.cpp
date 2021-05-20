@@ -104,7 +104,7 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
 }
 
 template<typename Tag>
-void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q){
+void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> & fixedSpins, vector<bool>& fixedValues, vector<int> & notFixedSpins){
     
     int    i_max = notFixedSpins[0];
     bool   col;
@@ -174,6 +174,69 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q){
         
     }
     
+    
+};
+
+template<typename Tag>
+void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool verbose, vector<int> & v_bias, vector<bool>& v_q, vector<int> & fixedSpins, vector<bool>& fixedValues, vector<int> & notFixedSpins){
+    
+    for(int l = 0; l < mess.G.numberOfTotalNodes()+1; l++){
+
+        int    t = 0;
+        double tmp_th = 1;
+
+        mess.look_up_table_bp<Tag>(flag_red);
+        mess.look_up_table<Tag>(flag_red);
+
+        //MM is the number of configurations used to compute the BP update in the approximate case
+        int MM = 10000;
+    
+        while (tmp_th > th && t < T){
+            //the problem with this approximate algo is that the random number generation is particularly slow
+            if(flag_approx)
+                mess.messUpdate_approx(MM);
+            else
+                mess.messUpdate();
+
+
+            mess.messNormalize();
+            mess.superMarginals();
+        
+            tmp_th = mess.compareSuperMarginals();
+        
+            mess.updateAndStore();
+        
+            if(verbose){
+                mess.messState();
+                cout << endl;
+                cout << "BP iteration: at time t=" << t << " the maximum error between current and previous super_marginals is " << tmp_th << endl;
+            }
+        
+            t++;
+        
+        }
+        mess.Wrap_computeLastMarg<L1>();
+        //mess.linkMarginalState();
+        mess.nodeMarginals();
+        mess.nodeMarginalState();
+        findMostBiased<L1>(v_bias, v_q, fixedSpins, fixedValues, notFixedSpins);
+
+        if(l == mess.G.numberOfTotalNodes()){
+            mess.print_BPit<Tag>(tmp_th, t);
+    
+            if(verbose){
+                cout << "the final node_marginals are " << endl;
+                cout << endl;
+                mess.superMarginalsState();
+                cout << endl;
+            }
+    
+
+            mess.logPartitionFunction<Tag>();
+
+        }
+    }
+     
     
 };
  
