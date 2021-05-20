@@ -114,6 +114,65 @@ inline void BPGD::def_setHardBiasSite(L1, int n, int value) {
         
 }
 
+inline void BPGD::def_setHardBiasSite(L1T1, int n, int value) {
+    
+    for (vector<int>::iterator it = mess.G.v[n].v_neigh.begin() ; it != mess.G.v[n].v_neigh.end(); ++it){
+        int j = *it;
+                           
+        vector<int>::iterator it_j = find(mess.G.v[n].v_neigh.begin(), mess.G.v[n].v_neigh.end(), j);
+        int index_j = distance (mess.G.v[n].v_neigh.begin(), it_j);
+
+        vector<int>::iterator it_i = find(mess.G.v[j].v_neigh.begin(), mess.G.v[j].v_neigh.end(), n);
+        int index_i = distance (mess.G.v[j].v_neigh.begin(), it_i);
+    
+
+        if (value == 0){
+            int xn = 1;
+            for(int xj = 0; xj <=1; xj++){
+                for(int xnp = 0; xnp <=1; xnp++){
+                    for(int xjp = 0; xjp <=1; xjp++){
+                        int t_nj = 8 * xnp + 4 * xjp + 2 * xn + xj;
+                        mess.bias[n][index_j][t_nj] = 0.;
+
+                        int t_jn = 8 * xnp + 4 * xjp + 2 * xj + xn;
+                        mess.bias[j][index_i][t_jn] = 0.;
+                    }
+                }
+            }
+
+        }
+        else{
+            int xn = 0;
+            for(int xj = 0; xj <=1; xj++){
+                for(int xnp = 0; xnp <=1; xnp++){
+                    for(int xjp = 0; xjp <=1; xjp++){
+                        int t_nj = 8 * xnp + 4 * xjp + 2 * xn + xj;
+                        mess.bias[n][index_j][t_nj] = 0.;
+
+                        int t_jn = 8 * xnp + 4 * xjp + 2 * xj + xn;
+                        mess.bias[j][index_i][t_jn] = 0.;
+                    }
+                }
+            }
+                   
+        }
+        
+        for(int xn = 0; xn <=1; xn++){
+            for(int xj = 0; xj <=1; xj++){
+                for(int xnp = 0; xnp <=1; xnp++){
+                    for(int xjp = 0; xjp <= 1; xjp++){
+                        int t_nj = 8 * xnp + 4 * xjp + 2 * xn + xj;
+                        cout << "fixed spin: " << n << "and neighbour: " << j << endl;
+                        cout << "print bias: " <<mess.bias[n][index_j][t_nj] << endl;
+                    }
+                }
+            }
+        }
+        
+    }
+        
+}
+
 template<typename Tag>
 void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> & fixedSpins, vector<bool>& fixedValues, vector<int> & notFixedSpins){
     
@@ -140,25 +199,25 @@ void BPGD::findMostBiased(vector<int> & v_bias, vector<bool>& v_q, vector<int> &
     
     //if (v_bias.size() == 0){
         
-        for (vector<int>::iterator it_i = notFixedSpins.begin(); it_i != notFixedSpins.end(); ++it_i){
-            tmp = mess.node_marginal[*it_i][0] - mess.node_marginal[*it_i][1];
-            if (abs(tmp) > max){
+    for (vector<int>::iterator it_i = notFixedSpins.begin(); it_i != notFixedSpins.end(); ++it_i){
+        tmp = mess.node_marginal[*it_i][0] - mess.node_marginal[*it_i][1];
+        if (abs(tmp) > max){
                 
-                if (tmp > 0)
-                    col = 0;
-                else
-                    col = 1;
+            if (tmp > 0)
+                col = 0;
+            else
+                col = 1;
                 
-                max = abs(tmp);
+            max = abs(tmp);
                 
-                i_max = *it_i;
+            i_max = *it_i;
                 
-            }
-            
         }
+         
+    }
         
-        v_bias.push_back(i_max);
-        v_q.push_back(col);
+    v_bias.push_back(i_max);
+    v_q.push_back(col);
 
     //}
     
@@ -259,7 +318,10 @@ void BPGD::BPGDiteration(double th, int flag_red, int flag_approx, int T, bool v
 //these are template methods and needs to be specified for the linker
 
 template void BPGD::setHardBias<L1>(vector<int>&, vector<bool>&);
+template void BPGD::setHardBias<L1T1>(vector<int>&, vector<bool>&);
 
 template void BPGD::initDecimation<L1>(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
+template void BPGD::initDecimation<L1T1>(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
 
 template void BPGD::BPGDiteration<L1>(double, int, int, int, bool, vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
+template void BPGD::BPGDiteration<L1T1>(double, int, int, int, bool, vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);
