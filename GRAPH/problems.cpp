@@ -212,6 +212,36 @@ void f_BPGD_L1T2(Graph& G, double th, int T, double r){
     
 };
 
+void f_BPGD_L1T3(Graph& G, double th, int T, double r){
+    
+    int L = 4;
+    
+    Messages mess(G,L,r);
+    
+    //here we iterate the BP messages for T BP-time sweeps until the largest
+    //difference found between marginals is smaller or equal to th.
+    
+    bool verbose = 0;
+    int flag_red = 0;       //set to 1 to study the reduced BP equations
+    int flag_approx = 0;    //set to 1 to study approximate BP updating
+    
+
+    BPGD Algo(mess);
+    Algo.mess.setQ(flag_red);
+    
+    vector <int> v_bias;
+    vector <bool> v_q;
+    vector <int> fixedSpins;
+    vector <bool> fixedValues;
+    vector <int> notFixedSpins;
+    
+        
+    Algo.initDecimation<L1T3>(v_bias,v_q, fixedSpins, fixedValues, notFixedSpins);
+    
+    Algo.BPGDiteration<L1T3>(th, flag_red, flag_approx, T, verbose, v_bias,v_q, fixedSpins, fixedValues, notFixedSpins);
+    
+};
+
 
 void f_BPiterationL2(Graph& G, double th, int T, double r){
     

@@ -56,6 +56,8 @@ void f_BPGD_L1T1(Graph& G, double th, int T, double r);
 
 void f_BPGD_L1T2(Graph& G, double th, int T, double r);
 
+void f_BPGD_L1T3(Graph& G, double th, int T, double r);
+
 void f_BPiterationL2(Graph &, double, int, double);
 
 void f_BPiterationL3(Graph &, double, int, double);

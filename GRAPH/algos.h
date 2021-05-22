@@ -46,6 +46,7 @@ public:
     inline void def_setHardBiasSite(L1, int i, int value);
     inline void def_setHardBiasSite(L1T1, int i, int value);
     inline void def_setHardBiasSite(L1T2, int i, int value);
+    inline void def_setHardBiasSite(L1T3, int i, int value);
     
     template<typename Tag>
     void findMostBiased(vector<int>&, vector<bool>&, vector<int>&, vector<bool>&, vector<int>&);           //after having ran the BP equation till convergence, we find the most biased variables.
