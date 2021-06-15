@@ -218,6 +218,8 @@ public:
     
     template<typename Tag>
     void logPartitionFunction();
+
+    void norm_check();                                          //checks all nodes messages - with which i compute z - are well normalized
     
     friend class BPGD;
 
