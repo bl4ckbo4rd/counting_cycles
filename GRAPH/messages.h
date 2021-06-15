@@ -222,6 +222,8 @@ public:
     
     template<typename Tag>
     void logPartitionFunction();
+
+    void norm_check();                                          //checks normalization of the link messages with which i compute logPartitionFunction
     
     friend class BPGD;
 

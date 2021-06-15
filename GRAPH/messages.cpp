@@ -4958,6 +4958,7 @@ void Messages::BPiteration(double th, int flag_red, int flag_approx, int T, bool
 template <typename Tag>
 void Messages::logPartitionFunction(){
     
+    //norm_check();
     
     int i, j, n;
     
@@ -5152,6 +5153,31 @@ void Messages::logPartitionFunction(){
     
     printEntropy<Tag>(Part1, Part2, print_file);
 
+}
+
+void Messages::norm_check(){
+
+    double prod = 1;
+
+    for (vector<Node>::iterator it_n = G.v.begin() ; it_n != G.v.end(); ++it_n){
+        int n = G.v[it_n->n].n;
+
+        for(vector<int>::iterator it_k = G.v[n].v_neigh.begin(); it_k != G.v[n].v_neigh.end(); ++it_k){
+            vector<int>::iterator it = find(G.v[*it_k].v_neigh.begin(), G.v[*it_k].v_neigh.end(), n);
+            int index_neigh = distance (G.v[*it_k].v_neigh.begin(), it);
+
+            double sum = 0;
+            for(int t = 0; t < Q; t++){
+                sum += mess[n][index_neigh][t];
+            } 
+            prod = prod*sum;
+            cout << n << "\t" << index_neigh << "\t\t" << sum << "\t" <<  prod << endl; 
+
+        }
+
+
+    }
+      
 }
 
 
